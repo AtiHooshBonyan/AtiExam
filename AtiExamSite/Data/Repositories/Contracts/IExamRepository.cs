@@ -1,9 +1,11 @@
 ﻿using AtiExamSite.Models.DomainModels;
 using AtiExamSite.Data.Repositories.Contracts;
-
-public interface IExamRepository : IRepositoryBase<Exam>
+namespace AtiExamSite.Data.Repositories.Contracts
 {
-    Task<IEnumerable<Exam>> GetAllWithQuestionsAsync();
-    Task<Exam> GetWithQuestionsAsync(Guid id);
-    Task<IEnumerable<Question>> GetRandomQuestionsAsync(Guid examId, int count);
+    public interface IExamRepository : IRepositoryBase<Exam>
+    {
+        Task<IEnumerable<Exam>> GetAllWithQuestionsAsync();
+        Task<Exam> GetWithQuestionsAsync(Guid id);
+        Task<IEnumerable<Question>> GetRandomQuestionsAsync(Guid examId, int count);
+    }
 }

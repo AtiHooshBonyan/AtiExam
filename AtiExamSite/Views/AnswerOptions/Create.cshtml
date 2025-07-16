@@ -1,0 +1,19 @@
+﻿@model AnswerOption
+<h1>Create Answer Option</h1>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Text" class="control-label"></label>
+        <input asp-for="Text" class="form-control" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input asp-for="IsCorrect" class="form-check-input" />
+        <label asp-for="IsCorrect" class="form-check-label"></label>
+    </div>
+    <input type="hidden" asp-for="QuestionId" />
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+<a asp-action="Index">Back to List</a>

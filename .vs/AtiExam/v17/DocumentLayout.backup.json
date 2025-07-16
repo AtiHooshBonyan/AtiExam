@@ -3,20 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\Tina\\source\\repos\\AtiExam\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\controllers\\examscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\controllers\\examscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\data\\repositories\\repositoriesimplementation\\examrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\data\\repositories\\repositoriesimplementation\\examrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\data\\repositories\\contracts\\iexamrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\data\\repositories\\contracts\\iexamrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.300\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,52 +18,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20250716073440_InitialAtiExamDomainModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs",
-              "RelativeToolTip": "AtiExamSite\\Migrations\\20250716073440_InitialAtiExamDomainModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:34:40.981Z",
+              "Title": "Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.300\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.300\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
+              "ViewState": "AgIAAFECAAAAAAAAAAAewGYCAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-07-16T08:20:43.988Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ExamRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\RepositoriesImplementation\\ExamRepository.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Data\\Repositories\\RepositoriesImplementation\\ExamRepository.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\RepositoriesImplementation\\ExamRepository.cs",
-              "RelativeToolTip": "AtiExamSite\\Data\\Repositories\\RepositoriesImplementation\\ExamRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:18:56.466Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IExamRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\Contracts\\IExamRepository.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Data\\Repositories\\Contracts\\IExamRepository.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\Contracts\\IExamRepository.cs",
-              "RelativeToolTip": "AtiExamSite\\Data\\Repositories\\Contracts\\IExamRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:18:00.446Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ExamsController.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Controllers\\ExamsController.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Controllers\\ExamsController.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Controllers\\ExamsController.cs",
-              "RelativeToolTip": "AtiExamSite\\Controllers\\ExamsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:12:14.966Z"
             }
           ]
         }

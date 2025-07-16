@@ -1,0 +1,87 @@
+﻿@model ExamSession
+@{
+    ViewData["Title"] = "Session Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>Exam Session</h1>
+        <h4>@Model.Exam?.Title - @Model.UserId</h4>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Session Information</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Start Time</dt>
+            <dd class="col-sm-9">@Model.StartTime</dd>
+
+            <dt class="col-sm-3">End Time</dt>
+            <dd class="col-sm-9">@(Model.EndTime?.ToString() ?? "Not completed")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">User Responses</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.UserResponses?.Any() == true)
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>Correct?</th>
+                            <th>Response Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var response in Model.UserResponses)
+                        {
+                            <tr class="@(response.IsCorrect == true ? "table-success" : response.IsCorrect == false ? "table-danger" : "")">
+                                <td>@response.Question?.Text</td>
+                                <td>@response.AnswerOption?.Text</td>
+                                <td>
+                                    @if (response.IsCorrect == true)
+                                    {
+                                        <span class="badge bg-success">Correct</span>
+                                    }
+                                    else if (response.IsCorrect == false)
+                                    {
+                                        <span class="badge bg-danger">Incorrect</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Unknown</span>
+                                    }
+                                </td>
+                                <td>@response.ResponseTime</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <a asp-controller="UserResponses" asp-action="DetailsBySession" asp-route-sessionId="@Model.SessionId"
+               class="btn btn-info">View All Responses</a>
+            <a asp-controller="UserResponses" asp-action="CalculateScore" asp-route-sessionId="@Model.SessionId"
+               class="btn btn-primary">Calculate Score</a>
+        }
+        else
+        {
+            <p>No responses recorded for this session.</p>
+        }
+    </div>
+</div>

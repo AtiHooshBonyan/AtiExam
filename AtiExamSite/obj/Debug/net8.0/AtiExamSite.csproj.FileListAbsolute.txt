@@ -126,6 +126,7 @@ C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.cspr
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.RazorAssemblyInfo.cache
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.RazorAssemblyInfo.cs
+C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.sourcelink.json
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\bundle\AtiExamSite.styles.css
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\projectbundle\AtiExamSite.bundle.scp.css
@@ -140,17 +141,3 @@ C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\refint\AtiExamSi
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.pdb
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.genruntimeconfig.cache
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\ref\AtiExamSite.dll
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.csproj.AssemblyReference.cache
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.AssemblyInfoInputs.cache
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.AssemblyInfo.cs
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.csproj.CoreCompileInputs.cache
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.RazorAssemblyInfo.cache
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.RazorAssemblyInfo.cs
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\bundle\AtiExamSite.styles.css
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\scopedcss\projectbundle\AtiExamSite.bundle.scp.css
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.dll
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\refint\AtiExamSite.dll
-C:\Users\Tina\Desktop\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.pdb
