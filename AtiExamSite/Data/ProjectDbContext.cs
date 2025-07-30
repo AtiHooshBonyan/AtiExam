@@ -5,108 +5,143 @@ namespace AtiExamSite.Data
 {
     public class ProjectDbContext : DbContext
     {
-        public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options)
+        public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
+            : base(options)
         {
         }
 
+        // DbSets for all entities
+        public DbSet<User> Users { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<AnswerOption> AnswerOptions { get; set; }
-        public DbSet<ExamSession> ExamSessions { get; set; }
+        public DbSet<Option> Options { get; set; }
+        public DbSet<ExamQuestion> ExamQuestions { get; set; }
+        public DbSet<QuestionOption> QuestionOptions { get; set; }
         public DbSet<UserResponse> UserResponses { get; set; }
+        public DbSet<ExamSession> ExamSessions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure Exam
+            base.OnModelCreating(modelBuilder);
+
+            // User entity config
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+                entity.HasIndex(u => u.Username).IsUnique();
+                entity.HasIndex(u => u.Email).IsUnique();
+                entity.Property(u => u.Username).IsRequired().HasMaxLength(100);
+                entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
+                entity.Property(u => u.IsAdmin).HasDefaultValue(false);
+            });
+
+            // Exam entity config
             modelBuilder.Entity<Exam>(entity =>
             {
-                entity.HasKey(e => e.ExamId);
+                entity.HasKey(e => e.Id);
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Description).HasMaxLength(1000);
-                entity.Property(e => e.PassingScore).IsRequired();
-                entity.Property(e => e.TimeLimitMinutes).IsRequired(false);
-                entity.Property(e => e.QuestionsToShow).IsRequired();
+                entity.Property(e => e.IsActive).HasDefaultValue(true);
+
+                // One-to-many: Exam has many ExamQuestions
+                entity.HasMany(e => e.ExamQuestions)
+                      .WithOne(eq => eq.Exam)
+                      .HasForeignKey(eq => eq.ExamId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Configure Question
+            // Question entity config
             modelBuilder.Entity<Question>(entity =>
             {
-                entity.HasKey(q => q.QuestionId);
-                entity.Property(q => q.Text).IsRequired().HasMaxLength(1000);
-                entity.Property(q => q.DifficultyLevel).HasMaxLength(50);
-                entity.Property(q => q.Category).HasMaxLength(100);
+                entity.HasKey(q => q.Id);
+                entity.Property(q => q.Title).IsRequired().HasMaxLength(1000);
+                entity.Property(q => q.DifficultyLevel).IsRequired().HasMaxLength(50);
 
-                entity.HasOne(q => q.Exam)
-                    .WithMany(e => e.Questions)
-                    .HasForeignKey(q => q.ExamId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                // One-to-many: Question has many QuestionOptions
+                entity.HasMany(q => q.QuestionOptions)
+                      .WithOne(qo => qo.Question)
+                      .HasForeignKey(qo => qo.QuestionId)
+                      .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasIndex(q => q.ExamId);
+                // One-to-many: Question has many UserResponses
+                entity.HasMany(q => q.UserResponses)
+                      .WithOne(ur => ur.Question)
+                      .HasForeignKey(ur => ur.QuestionId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Configure AnswerOption
-            modelBuilder.Entity<AnswerOption>(entity =>
+
+            // Option entity config
+            modelBuilder.Entity<Option>(entity =>
             {
-                entity.HasKey(a => a.AnswerId);
-                entity.Property(a => a.Text).IsRequired().HasMaxLength(500);
-                entity.Property(a => a.IsCorrect).IsRequired();
+                entity.HasKey(o => o.Id);
+                entity.Property(o => o.Title).IsRequired().HasMaxLength(500);
+                entity.Property(o => o.IsCorrect).IsRequired();
 
-                entity.HasOne(a => a.Question)
-                    .WithMany(q => q.AnswerOptions)
-                    .HasForeignKey(a => a.QuestionId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                // One-to-many: Option has many QuestionOptions
+                entity.HasMany(o => o.QuestionOptions)
+                      .WithOne(qo => qo.Option)
+                      .HasForeignKey(qo => qo.OptionId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Configure ExamSession
-            modelBuilder.Entity<ExamSession>(entity =>
+            // ExamQuestion entity config (join table)
+            modelBuilder.Entity<ExamQuestion>(entity =>
             {
-                entity.HasKey(s => s.SessionId);
-                entity.Property(s => s.UserId).IsRequired().HasMaxLength(450);
-                entity.Property(s => s.Status).IsRequired().HasMaxLength(50);
-                entity.Property(s => s.StartTime).IsRequired();
-                entity.Property(s => s.Score).IsRequired(false);
+                entity.HasKey(eq => eq.Id);
 
-                entity.HasOne(s => s.Exam)
-                    .WithMany()
-                    .HasForeignKey(s => s.ExamId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(eq => eq.Exam)
+                      .WithMany(e => e.ExamQuestions)
+                      .HasForeignKey(eq => eq.ExamId)
+                      .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasIndex(s => s.UserId);
-                entity.HasIndex(s => s.ExamId);
-                entity.HasIndex(s => s.Status);
-                entity.HasIndex(s => s.EndTime);
+                entity.HasOne(eq => eq.Question)
+                      .WithMany(q => q.ExamQuestions)
+                      .HasForeignKey(eq => eq.QuestionId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(eq => new { eq.ExamId, eq.QuestionId }).IsUnique();
             });
 
-            // Configure UserResponse
+            // QuestionOption entity config (join table)
+            modelBuilder.Entity<QuestionOption>(entity =>
+            {
+                entity.HasKey(qo => qo.Id);
+
+                entity.HasOne(qo => qo.Question)
+                      .WithMany(q => q.QuestionOptions)
+                      .HasForeignKey(qo => qo.QuestionId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(qo => qo.Option)
+                      .WithMany(o => o.QuestionOptions)
+                      .HasForeignKey(qo => qo.OptionId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(qo => new { qo.QuestionId, qo.OptionId }).IsUnique();
+            });
+
+            // UserResponse entity config
             modelBuilder.Entity<UserResponse>(entity =>
             {
-                entity.HasKey(r => r.ResponseId);
-                entity.Property(r => r.ResponseTime).IsRequired();
-                entity.Property(r => r.IsCorrect).IsRequired(false);
+                entity.HasKey(ur => ur.Id);
 
-                entity.HasOne(r => r.ExamSession)
-                    .WithMany(s => s.UserResponses)
-                    .HasForeignKey(r => r.SessionId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                //entity.HasOne(ur => ur.User)
+                //      .WithMany() // no navigation from User to UserResponses by default
+                //      .HasForeignKey(ur => ur.UserId)
+                //      .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(r => r.Question)
-                    .WithMany()
-                    .HasForeignKey(r => r.QuestionId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(ur => ur.Exam)
+                      .WithMany() // no navigation from Exam to UserResponses by default
+                      .HasForeignKey(ur => ur.ExamId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(r => r.AnswerOption)
-                    .WithMany()
-                    .HasForeignKey(r => r.AnswerId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(ur => ur.Question)
+                      .WithMany(q => q.UserResponses)
+                      .HasForeignKey(ur => ur.QuestionId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasIndex(r => r.SessionId);
-                entity.HasIndex(r => r.QuestionId);
-                entity.HasIndex(r => new { r.SessionId, r.QuestionId }).IsUnique();
+                //entity.HasIndex(ur => new { ur.UserId, ur.ExamId, ur.QuestionId }).IsUnique();
             });
         }
     }

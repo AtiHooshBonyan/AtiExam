@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AtiExamSite.Models.DomainModels.Option>
+
+@{
+    ViewData["Title"] = "Options";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Options</h1>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var option in Model)
+                        {
+                            <tr>
+                                <td>@option.Title</td>
+                                <td>
+                                    <span class="badge @(option.IsCorrect ? "bg-success" : "bg-secondary")">
+                                        @(option.IsCorrect ? "Correct" : "Incorrect")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@option.Id" class="btn btn-sm btn-info">Details</a>
+                                        <a asp-action="Edit" asp-route-id="@option.Id" class="btn btn-sm btn-warning">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@option.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this option?');">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

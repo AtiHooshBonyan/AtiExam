@@ -1,0 +1,28 @@
+﻿@model AtiExamSite.Models.DomainModels.Exam
+
+@{
+    ViewBag.Title = "Exam Score";
+    var score = ViewBag.Score != null ? Convert.ToDouble(ViewBag.Score) : 0;
+    var scoreColor = score >= 90 ? "success" : score >= 70 ? "warning" : "danger";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="my-4">Your Score</h1>
+
+            <div class="alert alert-@scoreColor display-4">
+                @score.ToString("F1")%
+            </div>
+
+            <div class="mt-3">
+                <p><strong>Exam:</strong> @Model.Title</p>
+                <p><strong>Description:</strong> @Model.Description</p>
+            </div>
+
+            <a asp-action="Index" class="btn btn-outline-primary mt-4">
+                <i class="fas fa-arrow-left"></i> Back to My Exams
+            </a>
+        </div>
+    </div>
+</div>

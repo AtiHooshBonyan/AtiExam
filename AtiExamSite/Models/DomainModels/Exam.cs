@@ -2,13 +2,17 @@
 namespace AtiExamSite.Models.DomainModels{
     public class Exam
     {
-        public Guid ExamId { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int? TimeLimitMinutes { get; set; } // null == no time limit
-        public int QuestionsToShow { get; set; }
-        public int PassingScore { get; set; }
+        public int? TimeLimitMinutes { get; set; }
+        public int QuestionCount { get; set; }
+        public int RequiredQuestion { get; set; }
+        public double PassingScore { get; set; }
+        public bool IsActive { get; set; } = true; // Added
 
-        public virtual ICollection<Question> Questions { get; set; }
+        public ICollection<ExamQuestion> ExamQuestions { get; set; }
+        public ICollection<UserResponse> UserResponses { get; set; }
     }
 }

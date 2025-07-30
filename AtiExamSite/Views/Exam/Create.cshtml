@@ -1,0 +1,72 @@
+﻿@model AtiExamSite.Models.DomainModels.Exam
+
+@{
+    ViewData["Title"] = "Create Exam";
+}
+
+<div class="container">
+    <h1>Create Exam</h1>
+    <hr />
+
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="TimeLimitMinutes" class="form-label"></label>
+                    <input asp-for="TimeLimitMinutes" class="form-control" />
+                    <span asp-validation-for="TimeLimitMinutes" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label asp-for="QuestionCount" class="form-label"></label>
+                    <input asp-for="QuestionCount" class="form-control" />
+                    <span asp-validation-for="QuestionCount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="RequiredQuestion" class="form-label"></label>
+                    <input asp-for="RequiredQuestion" class="form-control" />
+                    <span asp-validation-for="RequiredQuestion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PassingScore" class="form-label"></label>
+                    <input asp-for="PassingScore" class="form-control" />
+                    <span asp-validation-for="PassingScore" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

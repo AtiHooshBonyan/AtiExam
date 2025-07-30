@@ -141,3 +141,4 @@ C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\refint\AtiExamSi
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.pdb
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.genruntimeconfig.cache
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\ref\AtiExamSite.dll
+C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AutoMapper.dll

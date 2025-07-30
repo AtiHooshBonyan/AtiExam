@@ -1,0 +1,43 @@
+﻿@model AtiExamSite.Models.DomainModels.Option
+
+@{
+    ViewData["Title"] = "Delete Option";
+}
+
+<div class="container">
+    <h1>Delete Option</h1>
+    <hr />
+
+    <h4>Are you sure you want to delete this option?</h4>
+
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+
+        <dt class="col-sm-3">Is Correct</dt>
+        <dd class="col-sm-9">@Model.IsCorrect</dd>
+
+        <dt class="col-sm-3">Associated Questions</dt>
+        <dd class="col-sm-9">
+            @if (Model.QuestionOptions != null && Model.QuestionOptions.Any())
+            {
+                <ul>
+                    @foreach (var qo in Model.QuestionOptions)
+                    {
+                        <li>Question ID: @qo.QuestionId</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p><em>No associated questions</em></p>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

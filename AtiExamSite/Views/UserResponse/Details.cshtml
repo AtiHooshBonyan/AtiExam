@@ -1,0 +1,94 @@
+﻿@model AtiExamSite.Models.DomainModels.Exam
+
+@{
+    var score = ViewBag.Score as int? ?? 0;
+    var questionResults = ViewBag.QuestionResults as List<(Question Question, Option SelectedOption, bool IsCorrect)> ?? new();
+}
+
+<main class="container py-4" role="main" aria-labelledby="examResultsTitle">
+    <h1 id="examResultsTitle" class="mb-4">Exam Results: @Model.Title</h1>
+
+    <section aria-label="Overall exam score and status">
+        <div class="card mb-5 shadow-sm rounded-3 border-0">
+            <div class="card-body text-center">
+                <h3 class="card-title mb-3">
+                    Your Score:
+                    <span class="fw-bold @(score >= Model.PassingScore ? "text-success" : "text-danger")">
+                        @score
+                    </span> / @Model.PassingScore
+                </h3>
+                <h4 class="card-subtitle mb-0">
+                    Result:
+                    @if (score >= Model.PassingScore)
+                    {
+                        <span class="badge bg-success fs-6" aria-label="Passed">Passed</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger fs-6" aria-label="Failed">Failed</span>
+                    }
+                </h4>
+            </div>
+        </div>
+    </section>
+
+    <section aria-label="Detailed question results">
+        <h3 class="mb-3">Question Results</h3>
+
+        @if (!questionResults.Any())
+        {
+            <p class="text-muted fst-italic">No question results available.</p>
+        }
+        else
+        {
+            @foreach (var result in questionResults)
+            {
+                <article class="card mb-3 shadow-sm rounded-3 border-0" role="group" aria-labelledby="questionTitle_@result.Question.Id">
+                    <header class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <h5 id="questionTitle_@result.Question.Id" class="mb-0">@result.Question.Title</h5>
+                        <span class="badge bg-secondary" aria-label="Difficulty level">@result.Question.DifficultyLevel</span>
+                    </header>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <strong>Your Answer:</strong>
+                            <span class="ms-2 @(result.IsCorrect ? "text-success" : "text-danger")">
+                                @(result.SelectedOption?.Title ?? "<em>No answer selected</em>")
+                            </span>
+                        </div>
+
+                        @if (!result.IsCorrect)
+                        {
+                            var correctOption = result.Question.QuestionOptions
+                            ?.FirstOrDefault(qo => qo.Option.IsCorrect)?.Option;
+
+                            <div class="mb-2">
+                                <strong>Correct Answer:</strong>
+                                <span class="ms-2 text-success">
+                                    @(correctOption?.Title ?? "<em>Not available</em>")
+                                </span>
+                            </div>
+                        }
+
+                        <div>
+                            <strong>Result:</strong>
+                            @if (result.IsCorrect)
+                            {
+                                <span class="badge bg-success" aria-label="Correct answer">Correct</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger" aria-label="Incorrect answer">Incorrect</span>
+                            }
+                        </div>
+                    </div>
+                </article>
+            }
+        }
+    </section>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary" aria-label="Back to exam results">
+            <i class="fas fa-arrow-left me-2" aria-hidden="true"></i> Back to Results
+        </a>
+    </div>
+</main>

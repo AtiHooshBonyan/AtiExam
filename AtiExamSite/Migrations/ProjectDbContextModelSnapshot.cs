@@ -22,33 +22,9 @@ namespace AtiExamSite.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.AnswerOption", b =>
-                {
-                    b.Property<Guid>("AnswerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("AnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("AnswerOptions");
-                });
-
             modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam", b =>
                 {
-                    b.Property<Guid>("ExamId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -57,10 +33,18 @@ namespace AtiExamSite.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("PassingScore")
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<double>("PassingScore")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuestionCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionsToShow")
+                    b.Property<int>("RequiredQuestion")
                         .HasColumnType("int");
 
                     b.Property<int?>("TimeLimitMinutes")
@@ -71,190 +55,283 @@ namespace AtiExamSite.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("ExamId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamSession", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamQuestion", b =>
                 {
-                    b.Property<Guid>("SessionId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ExamId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Score")
-                        .HasColumnType("int");
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("ExamId", "QuestionId")
+                        .IsUnique();
+
+                    b.ToTable("ExamQuestions");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SessionId");
-
-                    b.HasIndex("EndTime");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("Status");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("ExamSessions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Option", b =>
                 {
-                    b.Property<Guid>("QuestionId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Category")
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Options");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DifficultyLevel")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.HasKey("QuestionId");
-
-                    b.HasIndex("ExamId");
+                    b.HasKey("Id");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.QuestionOption", b =>
                 {
-                    b.Property<Guid>("ResponseId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AnswerId")
+                    b.Property<Guid>("OptionId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool?>("IsCorrect")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ResponseTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("Id");
 
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasIndex("OptionId");
 
-                    b.HasKey("ResponseId");
-
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SessionId");
-
-                    b.HasIndex("SessionId", "QuestionId")
+                    b.HasIndex("QuestionId", "OptionId")
                         .IsUnique();
 
-                    b.ToTable("UserResponses");
+                    b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.AnswerOption", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.User", b =>
                 {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
-                        .WithMany("AnswerOptions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("Question");
-                });
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamSession", b =>
-                {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Navigation("Exam");
-                });
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
-                {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
-                        .WithMany("Questions")
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Navigation("Exam");
+                    b.Property<bool>("IsAdmin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
                 {
-                    b.HasOne("AtiExamSite.Models.DomainModels.AnswerOption", "AnswerOption")
-                        .WithMany()
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ExamId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SelectedOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("ExamId1");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserResponses");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamQuestion", b =>
+                {
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
+                        .WithMany("ExamQuestions")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                        .WithMany("ExamQuestions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.QuestionOption", b =>
+                {
+                    b.HasOne("AtiExamSite.Models.DomainModels.Option", "Option")
+                        .WithMany("QuestionOptions")
+                        .HasForeignKey("OptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                        .WithMany("QuestionOptions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Option");
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
+                {
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
                         .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", null)
+                        .WithMany("UserResponses")
+                        .HasForeignKey("ExamId1");
+
+                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                        .WithMany("UserResponses")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AtiExamSite.Models.DomainModels.ExamSession", "ExamSession")
+                    b.HasOne("AtiExamSite.Models.DomainModels.User", null)
                         .WithMany("UserResponses")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("AnswerOption");
-
-                    b.Navigation("ExamSession");
+                    b.Navigation("Exam");
 
                     b.Navigation("Question");
                 });
 
             modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("ExamQuestions");
+
+                    b.Navigation("UserResponses");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamSession", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Option", b =>
                 {
-                    b.Navigation("UserResponses");
+                    b.Navigation("QuestionOptions");
                 });
 
             modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
                 {
-                    b.Navigation("AnswerOptions");
+                    b.Navigation("ExamQuestions");
+
+                    b.Navigation("QuestionOptions");
+
+                    b.Navigation("UserResponses");
+                });
+
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.User", b =>
+                {
+                    b.Navigation("UserResponses");
                 });
 #pragma warning restore 612, 618
         }

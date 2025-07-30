@@ -4,10 +4,11 @@ namespace AtiExamSite.Data.Repositories.Contracts
 {
     public interface IUserResponseRepository : IRepositoryBase<UserResponse>
     {
-        Task<IEnumerable<UserResponse>> GetResponsesBySessionAsync(Guid sessionId);
-        Task<IEnumerable<UserResponse>> GetResponsesByQuestionAsync(Guid questionId);
-        Task<int> CalculateSessionScoreAsync(Guid sessionId);
-        Task<int> GetCorrectAnswerCountAsync(Guid sessionId); // New method
-        Task<int> GetTotalQuestionCountAsync(Guid sessionId); // New method
+        Task<IReadOnlyCollection<UserResponse>> GetResponsesByExamAsync(Guid examId);
+        Task<bool> DeleteByQuestionIdAsync(Guid questionId);
+        //Task<IReadOnlyCollection<UserResponse>> GetResponsesByUserAsync(Guid userId); // Added for user-specific responses
+        Task<double> CalculateExamScoreAsync(Guid examId);
+        Task<bool> SubmitResponsesAsync(IEnumerable<UserResponse> responses);
+        //Task<bool> HasUserTakenExamAsync(Guid userId, Guid examId); // Added for exam attempt check
     }
 }

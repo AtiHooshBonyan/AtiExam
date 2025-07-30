@@ -1,0 +1,113 @@
+﻿@model IEnumerable<AtiExamSite.Models.DomainModels.Question>
+
+@{
+    var examId = ViewBag.ExamId;
+    var remainingSeconds = ViewBag.RemainingSeconds ?? 0;
+    var questions = Model?.ToList() ?? new List<AtiExamSite.Models.DomainModels.Question>();
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h1 class="mb-0">Submit Exam Responses</h1>
+        <div class="alert alert-info p-2 px-3 shadow-sm" id="timerBox">
+            ⏱ Time Remaining: <strong id="timerDisplay">--:--</strong>
+        </div>
+    </div>
+
+    @if (!questions.Any())
+    {
+        <div class="alert alert-warning">
+            No questions are available for this exam.
+        </div>
+    }
+    else
+    {
+        <form asp-action="Create" method="post" id="examForm">
+            <input type="hidden" name="examId" value="@examId" />
+
+            @for (int i = 0; i < questions.Count; i++)
+            {
+                var question = questions[i];
+
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between">
+                        <h5 class="mb-0">@question.Title</h5>
+                        <span class="badge bg-light text-dark">@question.DifficultyLevel</span>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="responses[@i].QuestionId" value="@question.Id" />
+                        <input type="hidden" name="responses[@i].ExamId" value="@examId" />
+
+                        @if (question.QuestionOptions != null && question.QuestionOptions.Any())
+                        {
+                            foreach (var qo in question.QuestionOptions)
+                            {
+                                var option = qo?.Option;
+                                if (option != null)
+                                {
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="responses[@i].SelectedOptionId"
+                                               value="@option.Id"
+                                               id="option_@option.Id@i"
+                                               required />
+                                        <label class="form-check-label" for="option_@option.Id@i">
+                                            @option.Title
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                No options available for this question.
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="form-group mt-4 text-end">
+                <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Responses
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+            </div>
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        let remainingSeconds = @remainingSeconds;
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            const timerDisplay = document.getElementById("timerDisplay");
+
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "00:00";
+
+                // Disable button and auto-submit
+                document.getElementById("submitBtn").disabled = true;
+                alert("Time's up! Your exam is being submitted.");
+                document.getElementById("examForm").submit();
+                return;
+            }
+
+            timerDisplay.textContent = formatTime(remainingSeconds);
+            remainingSeconds--;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // run once immediately
+    </script>
+}

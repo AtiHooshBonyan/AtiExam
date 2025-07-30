@@ -1,18 +1,22 @@
-﻿using AtiExamSite.Models.DomainModels;
+﻿
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AtiExamSite.Models.DomainModels
 {
     public class UserResponse
     {
-        public Guid ResponseId { get; set; }
-        public Guid SessionId { get; set; }
-        public Guid QuestionId { get; set; }
-        public Guid? AnswerId { get; set; } // user can leave the question with no answer
-        public bool? IsCorrect { get; set; }
-        public DateTime ResponseTime { get; set; }
+        public Guid Id { get; set; }
+        public Guid ExamId { get; set; }
+        
+        //public Guid UserId { get; set; }
+        public Guid SelectedOptionId { get; set; }
 
-        public virtual ExamSession ExamSession { get; set; }
-        public virtual Question Question { get; set; }
-        public virtual AnswerOption AnswerOption { get; set; }
+        public Guid QuestionId { get; set; }
+
+        public Question Question { get; set; }
+
+        public Exam Exam { get; set; }
+
     }
+
 }

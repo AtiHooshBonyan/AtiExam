@@ -3,6 +3,38 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Exam Site</h1>
+    <p>Manage your exams and questions with ease.</p>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Exams</h5>
+                    <p class="card-text">Create and manage your exams.</p>
+                    <a asp-controller="Exam" asp-action="Index" class="btn btn-primary">Go to Exams</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Questions</h5>
+                    <p class="card-text">Manage your question bank.</p>
+                    <a asp-controller="Question" asp-action="Index" class="btn btn-primary">Go to Questions</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Options</h5>
+                    <p class="card-text">Manage answer options.</p>
+                    <a asp-controller="Option" asp-action="Index" class="btn btn-primary">Go to Options</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

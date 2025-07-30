@@ -1,0 +1,70 @@
+﻿@model AtiExamSite.Models.DomainModels.Exam
+
+@{
+    ViewData["Title"] = $"Add Questions to {Model.Title}";
+}
+
+<div class="container">
+    <h1>Add Questions to @Model.Title</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <form asp-action="AddQuestions" method="post">
+        <input type="hidden" name="examId" value="@Model.Id" />
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Available Questions</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.AvailableQuestions != null && ((IEnumerable<Question>)ViewBag.AvailableQuestions).Any())
+                {
+                    <div class="list-group">
+                        @foreach (var question in (IEnumerable<Question>)ViewBag.AvailableQuestions)
+                        {
+                            <div class="list-group-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="questionIds" value="@question.Id" id="question_@question.Id">
+                                    <label class="form-check-label" for="question_@question.Id">
+                                        @question.Title
+                                        <span class="badge @GetDifficultyBadgeClass(question.DifficultyLevel)">
+                                            @question.DifficultyLevel
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">No available questions to add.</div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" @(ViewBag.AvailableQuestions != null && ((IEnumerable<Question>)ViewBag.AvailableQuestions).Any() ? "" : "disabled")>
+                Add Selected Questions
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Back to Exam</a>
+        </div>
+    </form>
+</div>
+
+@functions {
+    public string GetDifficultyBadgeClass(string difficulty)
+    {
+        return difficulty switch
+        {
+            "Easy" => "bg-success",
+            "Medium" => "bg-warning",
+            "Hard" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

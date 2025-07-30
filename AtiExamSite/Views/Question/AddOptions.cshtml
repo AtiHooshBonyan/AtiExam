@@ -1,0 +1,120 @@
+﻿@model Guid
+
+@{
+    ViewData["Title"] = "Add Options to Question";
+    var options = ViewBag.AvailableOptions as IEnumerable<AtiExamSite.Models.DomainModels.Option>;
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Add Options to Question</h2>
+            @if (ViewBag.QuestionTitle != null)
+            {
+                <h4 class="mb-0">@ViewBag.QuestionTitle</h4>
+            }
+        </div>
+        <div class="card-body">
+            <form asp-action="AddOptions" method="post" id="optionsForm">
+                <input type="hidden" name="questionId" value="@ViewBag.QuestionId" />
+
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="optionSearch" class="form-control" placeholder="Search options...">
+                            <button class="btn btn-outline-secondary" type="button" id="clearOptionSearch">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="selectAllOptions">
+                        <label class="form-check-label fw-bold" for="selectAllOptions">
+                            Select/Deselect All
+                        </label>
+                    </div>
+                </div>
+
+                @if (options != null && options.Any())
+                {
+                    <div class="options-container" style="max-height: 500px; overflow-y: auto;">
+                        @foreach (var option in options)
+                        {
+                            <div class="card mb-2 option-card" data-correct="@option.IsCorrect.ToString().ToLower()">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1 text-center">
+                                            <input class="form-check-input option-checkbox" type="checkbox"
+                                                   name="optionIds" value="@option.Id" id="option_@option.Id" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label class="form-check-label option-text fw-bold" for="option_@option.Id">
+                                                @option.Title
+                                            </label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="radio" class="form-check-input" name="CorrectOptionId" value="@option.Id"
+                                                   id="correctOption_@option.Id" @(option.IsCorrect ? "checked" : "") />
+                                            <label for="correctOption_@option.Id" class="ms-1">Correct</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">No available options to add.</div>
+                }
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a asp-action="Details" asp-route-id="@ViewBag.QuestionId" class="btn btn-outline-secondary me-md-2">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Question
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-1"></i> Add Selected Options
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Select/Deselect all
+            $('#selectAllOptions').change(function () {
+                $('.option-checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Search filter
+            $('#optionSearch').keyup(function () {
+                const searchText = $(this).val().toLowerCase();
+                $('.option-card').each(function () {
+                    const optionText = $(this).find('.option-text').text().toLowerCase();
+                    $(this).toggle(optionText.includes(searchText));
+                });
+            });
+
+            // Clear search
+            $('#clearOptionSearch').click(function () {
+                $('#optionSearch').val('').keyup();
+            });
+
+            // Filter by correct options
+            $('#showCorrectOnly').change(function () {
+                if ($(this).is(':checked')) {
+                    $('.option-card').each(function () {
+                        $(this).toggle($(this).data('correct') === 'true');
+                    });
+                } else {
+                    $('.option-card').show();
+                }
+            });
+        });
+    </script>
+}
