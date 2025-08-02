@@ -41,36 +41,47 @@ namespace AtiExamSite.Data.Repositories.Implementations
             if (examId == Guid.Empty)
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
-            // Get all user responses for this exam
+            // Load the exam to get RequiredQuestion count
+            var exam = await _dbContext.Exams
+                .Where(e => e.Id == examId)
+                .Select(e => new { e.RequiredQuestion })
+                .FirstOrDefaultAsync();
+
+            if (exam == null)
+                throw new InvalidOperationException("Exam not found");
+
+            if (exam.RequiredQuestion <= 0)
+                throw new InvalidOperationException("Invalid number of required questions");
+
+            // Get all valid user responses for this exam
             var responses = await _dbContext.UserResponses
                 .Where(ur => ur.ExamId == examId && ur.SelectedOptionId != null && ur.SelectedOptionId != Guid.Empty)
                 .ToListAsync();
 
-            if (responses == null || responses.Count == 0)
-                return 0.0;
-
+            // Extract distinct selected option IDs
             var selectedOptionIds = responses
                 .Select(r => r.SelectedOptionId)
                 .Distinct()
                 .ToList();
 
-            // Load only the selected options and check which are correct
+            // Load selected options and check which are correct
             var selectedOptions = await _dbContext.Options
                 .Where(o => selectedOptionIds.Contains(o.Id))
                 .ToDictionaryAsync(o => o.Id, o => o.IsCorrect);
 
+            // Count correct responses
             int correctCount = responses.Count(r =>
                 r.SelectedOptionId != null &&
                 selectedOptions.TryGetValue(r.SelectedOptionId, out bool isCorrect) &&
                 isCorrect);
 
-            // If no valid responses were submitted, score is 0
-            if (responses.Count == 0)
-                return 0.0;
+            // Calculate score based on RequiredQuestion count
+            double percentage = (double)correctCount / exam.RequiredQuestion * 100;
 
-            double percentage = (double)correctCount / responses.Count * 100;
+            // Round to 2 decimals
             return Math.Round(percentage, 2);
         }
+
 
 
         #endregion

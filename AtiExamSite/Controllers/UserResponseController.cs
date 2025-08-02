@@ -17,7 +17,7 @@ namespace AtiExamSite.Web.Controllers
         private readonly IExamQuestionService _examQuestionService;
         private readonly IExamSessionService _examSessionService;
 
-        private readonly int _requiredQuestions = 5;
+        //private readonly int _requiredQuestions = 5;
 
         #region [- Ctor() -]
         public UserResponseController(
@@ -158,7 +158,7 @@ namespace AtiExamSite.Web.Controllers
             }
 
             var questions = await _examQuestionService.GetExamQuestionsAsync(examId);
-            questions = questions.OrderBy(_ => Guid.NewGuid()).Take(_requiredQuestions).ToList();
+            questions = questions.OrderBy(_ => Guid.NewGuid()).Take(exam.RequiredQuestion).ToList();
 
             ViewBag.ExamId = examId;
             ViewBag.RemainingSeconds = (int)(allowedTime - timeElapsed).TotalSeconds;
