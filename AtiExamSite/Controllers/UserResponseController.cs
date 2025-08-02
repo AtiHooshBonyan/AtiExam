@@ -135,13 +135,12 @@ namespace AtiExamSite.Web.Controllers
                 return NotFound("Exam not found.");
 
             // Check if user already started this exam
-            var session = await _examSessionService.GetSessionAsync(userId, examId);
+            var session = await _examSessionService.GetSessionAsync(examId);
             if (session == null)
             {
                 session = new ExamSession
                 {
                     Id = Guid.NewGuid(),
-                    UserId = userId,
                     ExamId = examId,
                     StartTime = DateTime.UtcNow
                 };

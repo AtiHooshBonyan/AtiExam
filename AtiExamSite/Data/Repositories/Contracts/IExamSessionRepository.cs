@@ -4,7 +4,7 @@ namespace AtiExamSite.Data.Repositories.Contracts
 {
     public interface IExamSessionRepository
     {
-        Task<ExamSession> GetByUserAndExamAsync(Guid userId, Guid examId);
+        Task<ExamSession> GetByUserAndExamAsync(Guid examId);
         Task AddAsync(ExamSession session);
         Task UpdateAsync(ExamSession session);
     }

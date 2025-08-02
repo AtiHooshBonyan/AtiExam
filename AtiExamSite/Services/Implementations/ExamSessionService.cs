@@ -13,8 +13,8 @@ namespace AtiExamSite.Services.Implementations
             _examSessionRepository = examSessionRepository;
         }
 
-        public async Task<ExamSession> GetSessionAsync(Guid userId, Guid examId)
-            => await _examSessionRepository.GetByUserAndExamAsync(userId, examId);
+        public async Task<ExamSession> GetSessionAsync(Guid examId)
+            => await _examSessionRepository.GetByUserAndExamAsync(examId);
 
         public async Task<bool> CreateAsync(ExamSession session)
         {

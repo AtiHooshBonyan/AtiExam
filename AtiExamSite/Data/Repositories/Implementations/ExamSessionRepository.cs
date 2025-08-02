@@ -13,10 +13,10 @@ namespace AtiExamSite.Data.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public async Task<ExamSession> GetByUserAndExamAsync(Guid userId, Guid examId)
+        public async Task<ExamSession> GetByUserAndExamAsync(Guid examId)
         {
             return await _dbContext.ExamSessions
-                .FirstOrDefaultAsync(s => s.UserId == userId && s.ExamId == examId);
+                .FirstOrDefaultAsync(s =>  s.ExamId == examId);
         }
 
         public async Task AddAsync(ExamSession session)

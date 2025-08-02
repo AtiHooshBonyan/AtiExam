@@ -10,7 +10,7 @@ namespace AtiExamSite.Models.DomainModels{
         public int QuestionCount { get; set; }
         public int RequiredQuestion { get; set; }
         public double PassingScore { get; set; }
-        public bool IsActive { get; set; } = true; // Added
+        public bool IsActive { get; set; } = true; 
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
         public ICollection<UserResponse> UserResponses { get; set; }
