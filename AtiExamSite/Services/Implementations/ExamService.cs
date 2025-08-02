@@ -1,5 +1,6 @@
 ﻿
 using AtiExamSite.Data.Repositories.Contracts;
+using AtiExamSite.Data.Repositories.Implementations;
 using AtiExamSite.Models.DomainModels;
 using AtiExamSite.Services.Contracts;
 
@@ -8,11 +9,12 @@ namespace AtiExamSite.Services.Implementations
     public class ExamService : IExamService
     {
         private readonly IExamRepository _examRepository;
-
+        private readonly IUserResponseRepository _userResponseRepository;
         #region [- Ctor() -]
-        public ExamService(IExamRepository examRepository)
+        public ExamService(IExamRepository examRepository, IUserResponseRepository userResponseRepository)
         {
-            _examRepository = examRepository ?? throw new ArgumentNullException(nameof(examRepository));
+            _examRepository = examRepository;
+            _userResponseRepository=userResponseRepository;
         }
         #endregion
 
@@ -92,7 +94,8 @@ namespace AtiExamSite.Services.Implementations
         {
             var exam = await _examRepository.GetByIdAsync(id);
             if (exam == null) return false;
-
+            // Delete related UserResponses first to avoid FK conflict
+            await _userResponseRepository.DeleteByExamIdAsync(id);
             await _examRepository.DeleteAsync(exam);
             return await _examRepository.SaveChangesAsync();
         } 

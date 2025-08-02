@@ -27,7 +27,6 @@ namespace AtiExamSite.Data.Repositories.Implementations
         //    return randomQuestions;
         //}
 
-
         #region [- ExistsAsync() -]
         public async Task<bool> ExistsAsync(Guid examId, Guid questionId)
         {

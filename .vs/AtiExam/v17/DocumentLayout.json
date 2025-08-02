@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Tina\\source\\repos\\AtiExam\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\services\\implementations\\examservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\services\\implementations\\examservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\services\\implementations\\userresponseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\services\\implementations\\userresponseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\data\\repositories\\implementations\\userresponserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\data\\repositories\\implementations\\userresponserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\services\\implementations\\questionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\services\\implementations\\questionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\models\\domainmodels\\question.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\models\\domainmodels\\question.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\models\\domainmodels\\exam.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\models\\domainmodels\\exam.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\models\\domainmodels\\userresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\models\\domainmodels\\userresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|c:\\users\\tina\\source\\repos\\atiexam\\atiexamsite\\controllers\\userresponsecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44B0F17D-614F-4D57-B64C-FD9B29256C5E}|AtiExamSite\\AtiExamSite.csproj|solutionrelative:atiexamsite\\controllers\\userresponsecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +34,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\UserResponse.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Models\\DomainModels\\UserResponse.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\UserResponse.cs",
-              "RelativeToolTip": "AtiExamSite\\Models\\DomainModels\\UserResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T09:30:09.67Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Exam.cs",
               "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\Exam.cs",
               "RelativeDocumentMoniker": "AtiExamSite\\Models\\DomainModels\\Exam.cs",
               "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\Exam.cs",
               "RelativeToolTip": "AtiExamSite\\Models\\DomainModels\\Exam.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABEAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T09:30:03.484Z",
+              "WhenOpened": "2025-08-02T11:18:37.199Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "Question.cs",
+              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\Question.cs",
+              "RelativeDocumentMoniker": "AtiExamSite\\Models\\DomainModels\\Question.cs",
+              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Models\\DomainModels\\Question.cs",
+              "RelativeToolTip": "AtiExamSite\\Models\\DomainModels\\Question.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T11:18:30.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UserResponseRepository.cs",
               "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\Implementations\\UserResponseRepository.cs",
               "RelativeDocumentMoniker": "AtiExamSite\\Data\\Repositories\\Implementations\\UserResponseRepository.cs",
               "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Data\\Repositories\\Implementations\\UserResponseRepository.cs",
               "RelativeToolTip": "AtiExamSite\\Data\\Repositories\\Implementations\\UserResponseRepository.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAmwD4AAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwHsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T09:23:49.165Z",
+              "WhenOpened": "2025-08-02T11:18:05.136Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UserResponseController.cs",
-              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Controllers\\UserResponseController.cs",
-              "RelativeDocumentMoniker": "AtiExamSite\\Controllers\\UserResponseController.cs",
-              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Controllers\\UserResponseController.cs",
-              "RelativeToolTip": "AtiExamSite\\Controllers\\UserResponseController.cs",
-              "ViewState": "AgIAAI4AAAAAAAAAAAAswKAAAABZAAAAAAAAAA==",
+              "Title": "QuestionService.cs",
+              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\QuestionService.cs",
+              "RelativeDocumentMoniker": "AtiExamSite\\Services\\Implementations\\QuestionService.cs",
+              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\QuestionService.cs",
+              "RelativeToolTip": "AtiExamSite\\Services\\Implementations\\QuestionService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwFQAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T09:21:56.952Z",
+              "WhenOpened": "2025-08-02T11:05:41.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserResponseService.cs",
+              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\UserResponseService.cs",
+              "RelativeDocumentMoniker": "AtiExamSite\\Services\\Implementations\\UserResponseService.cs",
+              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\UserResponseService.cs",
+              "RelativeToolTip": "AtiExamSite\\Services\\Implementations\\UserResponseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T11:06:58.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ExamService.cs",
+              "DocumentMoniker": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\ExamService.cs",
+              "RelativeDocumentMoniker": "AtiExamSite\\Services\\Implementations\\ExamService.cs",
+              "ToolTip": "C:\\Users\\Tina\\source\\repos\\AtiExam\\AtiExamSite\\Services\\Implementations\\ExamService.cs",
+              "RelativeToolTip": "AtiExamSite\\Services\\Implementations\\ExamService.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAgwGEAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-02T11:05:43.944Z",
               "EditorCaption": ""
             }
           ]

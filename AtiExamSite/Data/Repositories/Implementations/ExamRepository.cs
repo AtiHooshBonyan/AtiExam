@@ -61,7 +61,8 @@ namespace AtiExamSite.Data.Repositories.Implementations
         {
             var exam = await GetByIdAsync(examId);
             return exam?.IsActive ?? false;
-        } 
+        }
         #endregion
+
     }
 }

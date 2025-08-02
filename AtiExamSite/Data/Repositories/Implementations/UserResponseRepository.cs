@@ -103,7 +103,25 @@ namespace AtiExamSite.Data.Repositories.Implementations
 
         #endregion
 
+        #region [- DeleteByExamIdAsync() -]
+        public async Task<bool> DeleteByExamIdAsync(Guid examId)
+        {
+            var responses = await _dbContext.UserResponses
+                .Where(ur => ur.ExamId == examId)
+                .ToListAsync();
+
+            if (responses.Any())
+            {
+                _dbContext.UserResponses.RemoveRange(responses);
+                await _dbContext.SaveChangesAsync();
+            }
+            return true;
+        }
+
+        #endregion
+
         //related to user(deleted from project and db)
+
         #region [- HasUserTakenExamAsync() -]
         //public async Task<bool> HasUserTakenExamAsync(Guid userId, Guid examId)
         //{
