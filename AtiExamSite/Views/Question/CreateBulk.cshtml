@@ -1,0 +1,89 @@
+﻿@model List<AtiExamSite.Models.DomainModels.Question>
+
+@{
+    ViewData["Title"] = "Create Bulk Questions";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>Create Bulk Questions</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateBulk" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Difficulty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="questionsBody">
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input asp-for="@Model[i].Title" class="form-control" />
+                                    <span asp-validation-for="@Model[i].Title" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <select asp-for="@Model[i].DifficultyLevel" class="form-control">
+                                        <option value="">-- Select Difficulty --</option>
+                                        <option value="Easy" selected="@(Model[i].DifficultyLevel == "Easy" ? "selected" : null)">Easy</option>
+                                        <option value="Medium" selected="@(Model[i].DifficultyLevel == "Medium" ? "selected" : null)">Medium</option>
+                                        <option value="Hard" selected="@(Model[i].DifficultyLevel == "Hard" ? "selected" : null)">Hard</option>
+                                    </select>
+                                    <span asp-validation-for="@Model[i].DifficultyLevel" class="text-danger"></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-secondary mb-3" onclick="addRow()">
+                    <i class="fas fa-plus"></i> Add Question
+                </button>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Create Questions
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        function addRow() {
+            var tableBody = document.getElementById('questionsBody');
+            var index = tableBody.children.length;
+
+            var row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <input name="[${index}].Title" class="form-control" />
+                    <span class="text-danger"></span>
+                </td>
+                <td>
+                    <select name="[${index}].DifficultyLevel" class="form-control">
+                        <option value="">-- Select Difficulty --</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                    <span class="text-danger"></span>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+    </script>
+}

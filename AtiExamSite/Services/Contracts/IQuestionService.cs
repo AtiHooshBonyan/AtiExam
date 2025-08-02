@@ -8,6 +8,7 @@ namespace AtiExamSite.Services.Contracts
         Task<List<Question>> GetAllQuestionsAsync();
         Task<IEnumerable<Question>> GetByDifficultyAsync(string difficultyLevel);
         Task<bool> CreateQuestionAsync(Question question);
+        Task<bool> CreateQuestionsAsync(IEnumerable<Question> questions);
         Task<bool> HasCorrectOptionAsync(Guid questionId);
         Task<int> CountByDifficultyAsync(string difficultyLevel);
         Task<bool> SetCorrectOptionAsync(Guid questionId);

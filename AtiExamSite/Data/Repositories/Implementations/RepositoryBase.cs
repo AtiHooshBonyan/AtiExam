@@ -36,6 +36,13 @@ namespace AtiExamSite.Data.Repositories.Implementations
         }
         #endregion
 
+        #region [- AddRangeAsync() -]
+        public async Task AddRangeAsync(IEnumerable<Question> questions)
+        {
+            await _dbContext.Set<Question>().AddRangeAsync(questions);
+        } 
+        #endregion
+
         #region [- UpdateAsync() -]
         public async Task UpdateAsync(T entity)
         {

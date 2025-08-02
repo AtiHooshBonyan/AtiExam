@@ -10,6 +10,7 @@ namespace AtiExamSite.Services.Implementations
     {
         private readonly IExamRepository _examRepository;
         private readonly IUserResponseRepository _userResponseRepository;
+
         #region [- Ctor() -]
         public ExamService(IExamRepository examRepository, IUserResponseRepository userResponseRepository)
         {

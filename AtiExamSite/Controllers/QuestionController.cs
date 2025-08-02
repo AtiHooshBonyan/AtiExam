@@ -108,6 +108,45 @@ namespace AtiExamSite.Web.Controllers
 
         #endregion
 
+        #region [- CreateBulk() -]
+        [HttpGet]
+        public async Task<IActionResult> CreateBulk()
+        {
+            var options = await _optionService.GetAllOptionsAsync();
+            ViewBag.Options = options;
+            return View(new List<Question>());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateBulk(List<Question> model)
+        {
+            ViewBag.Options = await _optionService.GetAllOptionsAsync();
+
+            if (model == null || !model.Any())
+            {
+                ModelState.AddModelError("", "Please provide at least one question.");
+                return View(model);
+            }
+
+            // Assign new GUIDs for all questions
+            foreach (var question in model)
+            {
+                question.Id = Guid.NewGuid();
+            }
+
+            var result = await _questionService.CreateQuestionsAsync(model);
+
+            if (!result)
+            {
+                ModelState.AddModelError("", "Failed to add questions.");
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Index));
+        } 
+        #endregion
+
         #region [- Edit() -]
 
         [HttpGet]

@@ -98,6 +98,16 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
+        #region [- CreateBulkQuestionsAsync() -]
+        public async Task<bool> CreateQuestionsAsync(IEnumerable<Question> questions)
+        {
+            await _questionRepository.AddRangeAsync(questions);
+
+            var result = await _questionRepository.SaveChangesAsync();
+
+            return result;
+        }
+        #endregion
 
         #region [- HasCorrectOptionAsync() -]
         public async Task<bool> HasCorrectOptionAsync(Guid questionId)
