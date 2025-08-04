@@ -1,4 +1,4 @@
-﻿using AtiExamSite.Models.DomainModels;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 
 namespace AtiExamSite.Data.Repositories.Contracts
 {

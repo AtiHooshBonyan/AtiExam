@@ -1,7 +1,5 @@
-﻿
-using AtiExamSite.Data.Repositories.Contracts;
-using AtiExamSite.Data.Repositories.Implementations;
-using AtiExamSite.Models.DomainModels;
+﻿using AtiExamSite.Data.Repositories.Contracts;
+using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
 
 namespace AtiExamSite.Services.Implementations

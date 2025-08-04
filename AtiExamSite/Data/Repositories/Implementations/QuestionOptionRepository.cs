@@ -1,5 +1,5 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
-using AtiExamSite.Models.DomainModels;
+using AtiExamSite.Models.DomainModels.Exam;
 using Microsoft.EntityFrameworkCore;
 
 namespace AtiExamSite.Data.Repositories.Implementations

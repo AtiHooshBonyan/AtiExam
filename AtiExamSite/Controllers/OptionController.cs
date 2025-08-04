@@ -1,9 +1,8 @@
-﻿using AtiExamSite.Models.DomainModels;
-using AtiExamSite.Models.ViewModels.Option;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AtiExamSite.Web.Controllers
+namespace AtiExamSite.Controllers
 {
     public class OptionController : Controller
     {

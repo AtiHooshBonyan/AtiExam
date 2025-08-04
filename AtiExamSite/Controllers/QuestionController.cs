@@ -1,11 +1,8 @@
-﻿using AtiExamSite.Models.DomainModels;
-using AtiExamSite.Models.ViewModels.Question;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
-using AtiExamSite.Utilities;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AtiExamSite.Web.Controllers
+namespace AtiExamSite.Controllers
 {
     public class QuestionController : Controller
     {
@@ -37,7 +34,7 @@ namespace AtiExamSite.Web.Controllers
             }
             catch (Exception ex)
             {
-                // Log error
+                // log error
                 return View(new List<Question>());
             }
         }
@@ -129,7 +126,6 @@ namespace AtiExamSite.Web.Controllers
                 return View(model);
             }
 
-            // Assign new GUIDs for all questions
             foreach (var question in model)
             {
                 question.Id = Guid.NewGuid();

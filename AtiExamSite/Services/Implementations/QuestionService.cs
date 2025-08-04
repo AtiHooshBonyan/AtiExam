@@ -1,8 +1,6 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
-using AtiExamSite.Data.Repositories.Implementations;
-using AtiExamSite.Models.DomainModels;
+using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AtiExamSite.Services.Implementations
 {
@@ -33,8 +31,7 @@ namespace AtiExamSite.Services.Implementations
         #region [- GetAllQuestionsAsync() -]
         public async Task<List<Question>> GetAllQuestionsAsync()
         {
-            return await _questionRepository.GetAllQuestionsAsync();
-            
+            return await _questionRepository.GetAllQuestionsAsync();   
         }
 
         #endregion
@@ -84,7 +81,6 @@ namespace AtiExamSite.Services.Implementations
             // Delete related UserResponses first to avoid FK conflict
             await _userResponseRepository.DeleteByQuestionIdAsync(questionId);
 
-            // Now delete the question itself
             await _questionRepository.DeleteAsync(question);
             return await _questionRepository.SaveChangesAsync();
         }
@@ -149,7 +145,6 @@ namespace AtiExamSite.Services.Implementations
             return await _optionRepository.SaveChangesAsync();
         }
         #endregion
-
 
     }
 }

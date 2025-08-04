@@ -10,12 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add DbContext
+//add db context
+#region [- DB Context injection -]
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ProjectDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString)); 
+#endregion
 
-//configure services
+
+//config services
+#region [- configure services -]
+
+//repos
 builder.Services.AddScoped<IExamRepository, ExamRepository>();
 builder.Services.AddScoped<IExamQuestionRepository, ExamQuestionRepository>();
 builder.Services.AddScoped<IOptionRepository, OptionRepository>();
@@ -24,19 +30,16 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IUserResponseRepository, UserResponseRepository>();
 builder.Services.AddScoped<IExamSessionRepository, ExamSessionRepository>();
 
+//services
 builder.Services.AddScoped<IExamSessionService, ExamSessionService>();
-
 builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IExamQuestionService, ExamQuestionService>();
 builder.Services.AddScoped<IOptionService, OptionService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IQuestionOptionService, QuestionOptionService>();
-builder.Services.AddScoped<IUserResponseService, UserResponseService>();
-// Make sure these exist
+builder.Services.AddScoped<IUserResponseService, UserResponseService>(); 
+#endregion
 
-builder.Services.AddScoped<IUserResponseService, UserResponseService>();
-builder.Services.AddScoped<IExamQuestionService, ExamQuestionService>();
-builder.Services.AddScoped<IQuestionOptionService, QuestionOptionService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

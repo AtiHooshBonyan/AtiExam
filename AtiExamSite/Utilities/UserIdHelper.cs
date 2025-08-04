@@ -1,11 +1,10 @@
-﻿using System;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
 
 namespace AtiExamSite.Utilities
 {
     public static class UserIdHelper
     {
+        #region [- GetCurrentUserId() -]
         public static Guid? GetCurrentUserId(HttpContext httpContext)
         {
             if (httpContext.User?.Identity?.IsAuthenticated != true)
@@ -19,6 +18,7 @@ namespace AtiExamSite.Utilities
                 return userId;
 
             return null;
-        }
+        } 
+        #endregion
     }
 }

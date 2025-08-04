@@ -1,4 +1,4 @@
-﻿using AtiExamSite.Models.DomainModels;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 using Microsoft.EntityFrameworkCore;
 
 namespace AtiExamSite.Data
@@ -115,9 +115,9 @@ namespace AtiExamSite.Data
                 entity.HasKey(ur => ur.SelectedOptionId);
 
                 entity.HasOne(ur => ur.Exam)
-                      .WithMany() 
-                      .HasForeignKey(ur => ur.ExamId)
-                      .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(e => e.UserResponses) 
+                .HasForeignKey(ur => ur.ExamId)
+                .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ur => ur.Question)
                       .WithMany(q => q.UserResponses)

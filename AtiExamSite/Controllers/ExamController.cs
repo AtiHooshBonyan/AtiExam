@@ -1,10 +1,8 @@
-﻿using AtiExamSite.Models.DomainModels;
-using AtiExamSite.Models.ViewModels.Exam;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
-using AtiExamSite.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AtiExamSite.Web.Controllers
+namespace AtiExamSite.Controllers
 {
     public class ExamController : Controller
     {

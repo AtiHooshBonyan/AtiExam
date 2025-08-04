@@ -7,6 +7,7 @@ C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AtiExamSite.deps
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AtiExamSite.runtimeconfig.json
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AtiExamSite.dll
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AtiExamSite.pdb
+C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\Humanizer.dll
@@ -141,4 +142,3 @@ C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\refint\AtiExamSi
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.pdb
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\AtiExamSite.genruntimeconfig.cache
 C:\Users\Tina\source\repos\AtiExam\AtiExamSite\obj\Debug\net8.0\ref\AtiExamSite.dll
-C:\Users\Tina\source\repos\AtiExam\AtiExamSite\bin\Debug\net8.0\AutoMapper.dll

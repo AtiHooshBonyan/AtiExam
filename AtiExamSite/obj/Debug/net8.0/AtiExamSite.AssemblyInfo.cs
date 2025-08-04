@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AtiExamSite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e28bfc2df472e26b9bfaf8e705fd25ce5e6c5515")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1ecd81268d7242e52c7acc35a7842b3c58b4412")]
 [assembly: System.Reflection.AssemblyProductAttribute("AtiExamSite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AtiExamSite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

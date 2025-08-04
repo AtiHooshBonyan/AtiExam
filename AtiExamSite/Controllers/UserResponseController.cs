@@ -1,13 +1,9 @@
-﻿using AtiExamSite.Models.DomainModels;
+﻿using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
-using AtiExamSite.Services.Implementations;
 using AtiExamSite.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace AtiExamSite.Web.Controllers
+namespace AtiExamSite.Controllers
 {
     public class UserResponseController : Controller
     {
@@ -17,7 +13,6 @@ namespace AtiExamSite.Web.Controllers
         private readonly IExamQuestionService _examQuestionService;
         private readonly IExamSessionService _examSessionService;
 
-        //private readonly int _requiredQuestions = 5;
 
         #region [- Ctor() -]
         public UserResponseController(
@@ -108,22 +103,6 @@ namespace AtiExamSite.Web.Controllers
 
         #endregion
 
-        #region [- HasTakenExam() -]
-        //[HttpGet]
-        //public async Task<IActionResult> HasTakenExam(Guid? userId, Guid examId)
-        //{
-        //    if (userId == null || userId == Guid.Empty)
-        //        return BadRequest("Valid user ID required.");
-
-        //    if (examId == Guid.Empty)
-        //        return BadRequest("Invalid exam ID.");
-
-        //    var hasTaken = await _userResponseService.HasUserTakenExamAsync(userId.Value, examId);
-
-        //    return View(hasTaken);
-        //}
-        #endregion
-
         #region [- Create() -]
         [HttpGet]
         public async Task<IActionResult> Create(Guid examId)
@@ -148,7 +127,6 @@ namespace AtiExamSite.Web.Controllers
             }
             else if (session.IsCompleted)
             {
-                // Session completed - redirect user to their score page instead of retaking exam
                 return RedirectToAction(nameof(GetScore), new { examId });
             }
 
@@ -199,11 +177,9 @@ namespace AtiExamSite.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Attach examId and optionally userId
             foreach (var response in responses)
             {
                 response.ExamId = examId;
-                // response.UserId = userId; // if you're setting user
             }
 
             var success = await _userResponseService.SubmitResponsesAsync(responses);

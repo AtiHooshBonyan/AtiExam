@@ -1,10 +1,6 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
-using AtiExamSite.Models.DomainModels;
+using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AtiExamSite.Services.Implementations
 {

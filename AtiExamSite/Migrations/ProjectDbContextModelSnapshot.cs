@@ -22,7 +22,7 @@ namespace AtiExamSite.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Exam", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace AtiExamSite.Migrations
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamQuestion", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.ExamQuestion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace AtiExamSite.Migrations
                     b.ToTable("ExamQuestions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamSession", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.ExamSession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace AtiExamSite.Migrations
                     b.ToTable("ExamSessions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Option", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Option", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +121,7 @@ namespace AtiExamSite.Migrations
                     b.ToTable("Options");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -142,7 +142,7 @@ namespace AtiExamSite.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.QuestionOption", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.QuestionOption", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,16 +164,13 @@ namespace AtiExamSite.Migrations
                     b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.UserResponse", b =>
                 {
                     b.Property<Guid>("SelectedOptionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ExamId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("QuestionId")
@@ -183,22 +180,20 @@ namespace AtiExamSite.Migrations
 
                     b.HasIndex("ExamId");
 
-                    b.HasIndex("ExamId1");
-
                     b.HasIndex("QuestionId");
 
                     b.ToTable("UserResponses");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.ExamQuestion", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.ExamQuestion", b =>
                 {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Exam", "Exam")
                         .WithMany("ExamQuestions")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Question", "Question")
                         .WithMany("ExamQuestions")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -209,15 +204,15 @@ namespace AtiExamSite.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.QuestionOption", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.QuestionOption", b =>
                 {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Option", "Option")
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Option", "Option")
                         .WithMany("QuestionOptions")
                         .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Question", "Question")
                         .WithMany("QuestionOptions")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -228,19 +223,15 @@ namespace AtiExamSite.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.UserResponse", b =>
                 {
-                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", "Exam")
-                        .WithMany()
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Exam", "Exam")
+                        .WithMany("UserResponses")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AtiExamSite.Models.DomainModels.Exam", null)
-                        .WithMany("UserResponses")
-                        .HasForeignKey("ExamId1");
-
-                    b.HasOne("AtiExamSite.Models.DomainModels.Question", "Question")
+                    b.HasOne("AtiExamSite.Models.DomainModels.Exam.Question", "Question")
                         .WithMany("UserResponses")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -251,19 +242,19 @@ namespace AtiExamSite.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Exam", b =>
                 {
                     b.Navigation("ExamQuestions");
 
                     b.Navigation("UserResponses");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Option", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Option", b =>
                 {
                     b.Navigation("QuestionOptions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Question", b =>
+            modelBuilder.Entity("AtiExamSite.Models.DomainModels.Exam.Question", b =>
                 {
                     b.Navigation("ExamQuestions");
 

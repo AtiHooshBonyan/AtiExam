@@ -1,9 +1,10 @@
-﻿@model IEnumerable<AtiExamSite.Models.DomainModels.Question>
+﻿@using AtiExamSite.Models.DomainModels.Exam
+@model IEnumerable<Question>
 
 @{
     var examId = ViewBag.ExamId;
     var remainingSeconds = ViewBag.RemainingSeconds ?? 0;
-    var questions = Model?.ToList() ?? new List<AtiExamSite.Models.DomainModels.Question>();
+    var questions = Model?.ToList() ?? new List<Question>();
 }
 
 <div class="container">

@@ -1,8 +1,9 @@
-﻿@model AtiExamSite.Models.DomainModels.Exam
+﻿@using AtiExamSite.Models.DomainModels.Exam
+@model Exam
 
 @{
     ViewData["Title"] = $"Add Questions to {Model.Title}";
-    var availableQuestions = ViewBag.AvailableQuestions as IEnumerable<AtiExamSite.Models.DomainModels.Question>;
+    var availableQuestions = ViewBag.AvailableQuestions as IEnumerable<Question>;
 }
 
 <div class="container mt-4">
