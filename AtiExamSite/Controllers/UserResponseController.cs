@@ -41,7 +41,7 @@ namespace AtiExamSite.Web.Controllers
         {
             var userId = UserIdHelper.GetCurrentUserId(HttpContext) ?? Guid.Empty;
 
-            var exams = await _examService.GetExamsByUserAsync(userId) ?? new List<Exam>();
+            var exams = await _examService.GetAllAsync() ?? new List<Exam>();
 
             return View(exams);
         }

@@ -120,27 +120,5 @@ namespace AtiExamSite.Data.Repositories.Implementations
 
         #endregion
 
-        //related to user(deleted from project and db)
-
-        #region [- HasUserTakenExamAsync() -]
-        //public async Task<bool> HasUserTakenExamAsync(Guid userId, Guid examId)
-        //{
-        //    if (examId == Guid.Empty)
-        //        throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
-
-        //    return await _dbContext.UserResponses
-        //        .AnyAsync(ur => ur.UserId == userId && ur.ExamId == examId);
-        //} 
-        #endregion
-
-        #region [- GetResponsesByUserAsync() -]
-        //public async Task<IReadOnlyCollection<UserResponse>> GetResponsesByUserAsync(Guid userId)
-        //{
-        //    // If userId == Guid.Empty, return anonymous user responses (those with UserId == Guid.Empty)
-        //    return await _dbContext.UserResponses
-        //        .Where(ur => ur.UserId == userId)
-        //        .ToListAsync();
-        //} 
-        #endregion
     }
 }

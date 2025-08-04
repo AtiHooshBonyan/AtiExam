@@ -10,15 +10,6 @@ namespace AtiExamSite.Data.Repositories.Implementations
         public ExamRepository(ProjectDbContext context) : base(context) { }
         #endregion
 
-        #region [- GetExamsByUserAsync() -]
-        public async Task<IReadOnlyCollection<Exam>> GetExamsByUserAsync(Guid userId)
-        {
-            return await _dbContext.Exams
-                .Where(e => e.UserId == userId)
-                .ToListAsync();
-        }
-        #endregion
-
         #region [- ExistsAsync() -]
         public async Task<bool> ExistsAsync(string title, Guid? excludeExamId = null)
         {

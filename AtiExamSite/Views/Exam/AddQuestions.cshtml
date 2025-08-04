@@ -19,17 +19,31 @@
     <form asp-action="AddQuestions" method="post">
         <input type="hidden" name="examId" value="@Model.Id" />
 
+        <div class="mb-3 d-flex gap-2 flex-wrap align-items-center">
+            <div class="input-group" style="min-width: 250px;">
+                <span class="input-group-text" id="search-label"><i class="fas fa-search"></i></span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search title..." aria-label="Search title" aria-describedby="search-label" />
+            </div>
+
+            <select id="difficultyFilter" class="form-select" style="width: 150px;">
+                <option value="">All Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+            </select>
+        </div>
+
         <div class="card mb-4 shadow-sm">
             <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">Available Questions</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
                 @if (availableQuestions != null && availableQuestions.Any())
                 {
-                    <div class="list-group">
+                    <div class="list-group" id="questionsList">
                         @foreach (var question in availableQuestions)
                         {
-                            <div class="list-group-item">
+                            <div class="list-group-item" data-title="@question.Title.ToLower()" data-difficulty="@question.DifficultyLevel">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
                                            name="questionIds" value="@question.Id" id="question_@question.Id" />
@@ -61,6 +75,34 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const searchInput = document.getElementById('searchInput');
+            const difficultyFilter = document.getElementById('difficultyFilter');
+            const questionItems = document.querySelectorAll('#questionsList .list-group-item');
+
+            function applyFilters() {
+                const text = searchInput.value.toLowerCase();
+                const diff = difficultyFilter.value;
+
+                questionItems.forEach(item => {
+                    const title = item.getAttribute('data-title') || '';
+                    const difficulty = item.getAttribute('data-difficulty') || '';
+
+                    const matchesText = title.includes(text);
+                    const matchesDifficulty = !diff || difficulty === diff;
+
+                    item.style.display = (matchesText && matchesDifficulty) ? '' : 'none';
+                });
+            }
+
+            searchInput.addEventListener('input', applyFilters);
+            difficultyFilter.addEventListener('change', applyFilters);
+        })();
+    </script>
+}
 
 @functions {
     public string GetDifficultyBadgeClass(string difficulty)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtiExamSite.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20250804080949_InitialDomainModel")]
-    partial class InitialDomainModel
+    [Migration("20250804085205_InitialDomain")]
+    partial class InitialDomain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,9 +57,6 @@ namespace AtiExamSite.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -170,51 +167,9 @@ namespace AtiExamSite.Migrations
                     b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsAdmin")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("AtiExamSite.Models.DomainModels.UserResponse", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("SelectedOptionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -227,21 +182,13 @@ namespace AtiExamSite.Migrations
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SelectedOptionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("SelectedOptionId");
 
                     b.HasIndex("ExamId");
 
                     b.HasIndex("ExamId1");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserResponses");
                 });
@@ -302,10 +249,6 @@ namespace AtiExamSite.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AtiExamSite.Models.DomainModels.User", null)
-                        .WithMany("UserResponses")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Exam");
 
                     b.Navigation("Question");
@@ -329,11 +272,6 @@ namespace AtiExamSite.Migrations
 
                     b.Navigation("QuestionOptions");
 
-                    b.Navigation("UserResponses");
-                });
-
-            modelBuilder.Entity("AtiExamSite.Models.DomainModels.User", b =>
-                {
                     b.Navigation("UserResponses");
                 });
 #pragma warning restore 612, 618

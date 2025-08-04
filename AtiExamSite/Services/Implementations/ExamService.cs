@@ -19,14 +19,6 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
-        #region [- GetExamsByUserAsync() -]
-        public async Task<IReadOnlyCollection<Exam>> GetExamsByUserAsync(Guid userId)
-        {
-            var exams = await _examRepository.GetExamsByUserAsync(userId);
-            return exams?.ToList().AsReadOnly() ?? new List<Exam>().AsReadOnly();
-        }
-        #endregion
-
         #region [- ExamExistsAsync() -]
         public async Task<bool> ExamExistsAsync(string title, Guid? excludeExamId = null)
         {
@@ -48,9 +40,7 @@ namespace AtiExamSite.Services.Implementations
             return await _examRepository.GetRandomQuestionsAsync(count);
         }
         #endregion
-
   
-
         #region [- GetByIdAsync() -]
         public async Task<Exam?> GetByIdAsync(Guid id)
         {

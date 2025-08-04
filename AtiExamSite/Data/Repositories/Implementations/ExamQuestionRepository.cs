@@ -10,23 +10,6 @@ namespace AtiExamSite.Data.Repositories.Implementations
         public ExamQuestionRepository(ProjectDbContext context) : base(context) { }
         #endregion
 
-        //public async Task<List<Question>> GetRandomQuestionsForExamAsync(Guid examId, int count)
-        //{
-        //    var questions = await _dbContext.ExamQuestions
-        //        .Where(eq => eq.ExamId == examId)
-        //        .Select(eq => eq.Question)
-        //        .Include(q => q.QuestionOptions)
-        //            .ThenInclude(qo => qo.Option)
-        //        .ToListAsync();
-
-        //    if (questions.Count <= count)
-        //        return questions;
-
-        //    var randomQuestions = questions.OrderBy(q => Guid.NewGuid()).Take(count).ToList();
-
-        //    return randomQuestions;
-        //}
-
         #region [- ExistsAsync() -]
         public async Task<bool> ExistsAsync(Guid examId, Guid questionId)
         {

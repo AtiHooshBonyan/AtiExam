@@ -22,7 +22,6 @@ builder.Services.AddScoped<IOptionRepository, OptionRepository>();
 builder.Services.AddScoped<IQuestionOptionRepository, QuestionOptionRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IUserResponseRepository, UserResponseRepository>();
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IExamSessionRepository, ExamSessionRepository>();
 
 builder.Services.AddScoped<IExamSessionService, ExamSessionService>();
@@ -33,7 +32,6 @@ builder.Services.AddScoped<IOptionService, OptionService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IQuestionOptionService, QuestionOptionService>();
 builder.Services.AddScoped<IUserResponseService, UserResponseService>();
-//builder.Services.AddScoped<IUserService, UserService>();
 // Make sure these exist
 
 builder.Services.AddScoped<IUserResponseService, UserResponseService>();

@@ -5,7 +5,6 @@ namespace AtiExamSite.Models.DomainModels
 {
     public class UserResponse
     {
-        public Guid Id { get; set; }
         public Guid ExamId { get; set; }
         public Guid SelectedOptionId { get; set; }
 
@@ -14,7 +13,6 @@ namespace AtiExamSite.Models.DomainModels
         public Question Question { get; set; }
 
         public Exam Exam { get; set; }
-
     }
 
 }

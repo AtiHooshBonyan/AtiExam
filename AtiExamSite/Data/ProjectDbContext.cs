@@ -11,7 +11,6 @@ namespace AtiExamSite.Data
         }
 
         // DbSets for all entities
-        public DbSet<User> Users { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
@@ -23,17 +22,6 @@ namespace AtiExamSite.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // User entity config
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(u => u.Id);
-                entity.HasIndex(u => u.Username).IsUnique();
-                entity.HasIndex(u => u.Email).IsUnique();
-                entity.Property(u => u.Username).IsRequired().HasMaxLength(100);
-                entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
-                entity.Property(u => u.IsAdmin).HasDefaultValue(false);
-            });
 
             // Exam entity config
             modelBuilder.Entity<Exam>(entity =>
@@ -124,15 +112,10 @@ namespace AtiExamSite.Data
             // UserResponse entity config
             modelBuilder.Entity<UserResponse>(entity =>
             {
-                entity.HasKey(ur => ur.Id);
-
-                //entity.HasOne(ur => ur.User)
-                //      .WithMany() // no navigation from User to UserResponses by default
-                //      .HasForeignKey(ur => ur.UserId)
-                //      .OnDelete(DeleteBehavior.Restrict);
+                entity.HasKey(ur => ur.SelectedOptionId);
 
                 entity.HasOne(ur => ur.Exam)
-                      .WithMany() // no navigation from Exam to UserResponses by default
+                      .WithMany() 
                       .HasForeignKey(ur => ur.ExamId)
                       .OnDelete(DeleteBehavior.Restrict);
 
@@ -140,8 +123,6 @@ namespace AtiExamSite.Data
                       .WithMany(q => q.UserResponses)
                       .HasForeignKey(ur => ur.QuestionId)
                       .OnDelete(DeleteBehavior.Restrict);
-
-                //entity.HasIndex(ur => new { ur.UserId, ur.ExamId, ur.QuestionId }).IsUnique();
             });
         }
     }

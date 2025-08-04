@@ -30,14 +30,6 @@ namespace AtiExamSite.Web.Controllers
         }
         #endregion
 
-        #region [- GetExamsByUser() -]
-        public async Task<IActionResult> GetExamsByUser(Guid userId)
-        {
-            var exams = await _examService.GetExamsByUserAsync(userId);
-            return View(exams);
-        }
-        #endregion
-
         #region [- Details() -]
         public async Task<IActionResult> Details(Guid id)
         {
