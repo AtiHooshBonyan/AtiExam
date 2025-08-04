@@ -193,7 +193,7 @@ namespace AtiExamSite.Controllers
 
             // **End the session immediately**
             session.EndTime = DateTime.UtcNow;
-            await _examSessionService.UpdateAsync(session); 
+            await _examSessionService.UpdateAsync(session);
 
             return RedirectToAction(nameof(GetScore), new { examId });
         }

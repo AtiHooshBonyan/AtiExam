@@ -21,10 +21,15 @@
         </div>
     }
 
+    <!-- Search Box -->
+    <div class="mb-3">
+        <input type="text" id="examSearch" class="form-control" placeholder="Search exams..." aria-label="Search exams" />
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover mb-0">
+                <table class="table table-striped table-hover mb-0" id="examsTable">
                     <thead class="table-light">
                         <tr>
                             <th>Title</th>
@@ -41,7 +46,7 @@
                             foreach (var exam in Model)
                             {
                                 <tr>
-                                    <td>@exam.Title</td>
+                                    <td class="exam-title">@exam.Title</td>
                                     <td title="@exam.Description">
                                         @(string.IsNullOrEmpty(exam.Description)
                                                                         ? "-"
@@ -89,3 +94,18 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#examSearch').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+
+                $('#examsTable tbody tr').each(function () {
+                    var title = $(this).find('.exam-title').text().toLowerCase();
+                    $(this).toggle(title.includes(searchText));
+                });
+            });
+        });
+    </script>
+}

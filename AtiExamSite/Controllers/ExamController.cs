@@ -113,13 +113,13 @@ namespace AtiExamSite.Controllers
         [HttpGet]
         public async Task<IActionResult> AddQuestions(Guid examId)
         {
-            var exam = await _examService.GetExamWithQuestionsAsync(examId);  // get exam including linked questions
+            var exam = await _examService.GetExamWithQuestionsAsync(examId);
             if (exam == null)
             {
                 return NotFound();
             }
 
-            var allQuestions = await _questionService.GetAllQuestionsAsync();  // get all questions
+            var allQuestions = await _questionService.GetAllQuestionsAsync();
             var assignedQuestionIds = exam.ExamQuestions.Select(eq => eq.QuestionId).ToHashSet();
 
             var availableQuestions = allQuestions

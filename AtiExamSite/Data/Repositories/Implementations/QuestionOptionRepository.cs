@@ -48,7 +48,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
 
             _dbContext.QuestionOptions.RemoveRange(optionsToRemove);
             return await _dbContext.SaveChangesAsync() > 0;
-        } 
+        }
         #endregion
     }
 }

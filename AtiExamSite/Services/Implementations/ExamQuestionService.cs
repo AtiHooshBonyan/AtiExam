@@ -52,7 +52,7 @@ namespace AtiExamSite.Services.Implementations
         {
             if (examId == Guid.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
             return await _examQuestionRepository.CountQuestionsInExamAsync(examId);
-        } 
+        }
         #endregion
     }
 }

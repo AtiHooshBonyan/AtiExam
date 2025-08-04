@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AtiExamSite.Models.DomainModels.Exam
+﻿namespace AtiExamSite.Models.DomainModels.Exam
 {
     public class UserResponse
     {

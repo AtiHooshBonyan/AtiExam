@@ -14,7 +14,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         public async Task<List<Question>> GetAllQuestionsAsync()
         {
             return await _dbContext.Questions.ToListAsync();
-        } 
+        }
         #endregion
 
         #region [- GetQuestionWithOptionsAsync() -]
@@ -54,9 +54,9 @@ namespace AtiExamSite.Data.Repositories.Implementations
         {
             return await _dbContext.Questions
                 .CountAsync(q => q.DifficultyLevel == difficultyLevel);
-        } 
+        }
         #endregion
 
-       
+
     }
 }

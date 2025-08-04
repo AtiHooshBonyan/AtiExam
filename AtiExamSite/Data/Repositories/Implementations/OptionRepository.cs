@@ -53,7 +53,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
                 existingOption.Title = updatedOption.Title;
                 existingOption.IsCorrect = updatedOption.IsCorrect;
             }
-        } 
+        }
         #endregion
 
     }
