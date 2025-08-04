@@ -249,7 +249,7 @@ namespace AtiExamSite.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOptions(Guid questionId, IEnumerable<Guid> optionIds, Guid CorrectOptionId)
+        public async Task<IActionResult> AddOptions(Guid questionId, IEnumerable<Guid> optionIds, Guid? CorrectOptionId)
         {
             if (optionIds == null || !optionIds.Any())
             {
@@ -257,24 +257,32 @@ namespace AtiExamSite.Web.Controllers
                 return RedirectToAction(nameof(AddOptions), new { questionId });
             }
 
-            var addSuccess = await _questionOptionService.AddOptionsToQuestionAsync(questionId, optionIds);
+            if (CorrectOptionId.HasValue && !optionIds.Contains(CorrectOptionId.Value))
+            {
+                TempData["ErrorMessage"] = "Correct option must be among the selected options.";
+                return RedirectToAction(nameof(AddOptions), new { questionId });
+            }
 
+            var addSuccess = await _questionOptionService.AddOptionsToQuestionAsync(questionId, optionIds);
             if (!addSuccess)
             {
                 TempData["ErrorMessage"] = "Failed to add options to the question.";
                 return RedirectToAction(nameof(AddOptions), new { questionId });
             }
 
-            //var setCorrectSuccess = await _questionService.SetCorrectOptionAsync(questionId, CorrectOptionId);
-
-            //if (!setCorrectSuccess)
-            //{
-            //    TempData["WarningMessage"] = "Options were added, but setting the correct answer failed.";
-            //}
+            if (CorrectOptionId.HasValue)
+            {
+                var setCorrectSuccess = await _questionService.SetCorrectOptionAsync(questionId, CorrectOptionId.Value);
+                if (!setCorrectSuccess)
+                {
+                    TempData["WarningMessage"] = "Options added, but setting the correct answer failed.";
+                }
+            }
 
             TempData["SuccessMessage"] = "Options successfully added to question.";
             return RedirectToAction(nameof(Details), new { id = questionId });
         }
+
 
         #endregion
 

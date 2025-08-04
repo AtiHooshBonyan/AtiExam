@@ -9,13 +9,17 @@ namespace AtiExamSite.Services.Implementations
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly IQuestionOptionRepository _questionOptionRepository;
+        private readonly IOptionRepository _optionRepository;
         private readonly IUserResponseRepository _userResponseRepository;
 
         #region [- Ctor() -]
-        public QuestionService(IQuestionRepository questionRepository, IUserResponseRepository userResponseRepository)
+        public QuestionService(IQuestionRepository questionRepository, IUserResponseRepository userResponseRepository, IQuestionOptionRepository questionOptionRepository, IOptionRepository optionRepository)
         {
             _questionRepository = questionRepository ?? throw new ArgumentNullException(nameof(questionRepository));
             _userResponseRepository=userResponseRepository;
+            _questionOptionRepository=questionOptionRepository;
+            _optionRepository=optionRepository;
         }
         #endregion
 
@@ -124,16 +128,28 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- SetCorrectOptionAsync() -]
-        public async Task<bool> SetCorrectOptionAsync(Guid questionId)
+        public async Task<bool> SetCorrectOptionAsync(Guid questionId, Guid correctOptionId)
         {
-            var question = await _questionRepository.GetByIdAsync(questionId);
-            if (question == null)
+            var questionOptions = await _questionOptionRepository.GetByQuestionIdAsync(questionId);
+            var targetQo = questionOptions.FirstOrDefault(qo => qo.OptionId == correctOptionId);
+            if (targetQo == null)
                 return false;
 
-            await _questionRepository.UpdateAsync(question);
-            return await _questionRepository.SaveChangesAsync();
+            var optionIds = questionOptions.Select(qo => qo.OptionId).ToList();
+            var options = await _optionRepository.GetByIdsAsync(optionIds);
+            if (options == null || !options.Any())
+                return false;
+
+            foreach (var opt in options)
+            {
+                opt.IsCorrect = opt.Id == correctOptionId;
+                _optionRepository.UpdateAsync(opt);
+            }
+
+            return await _optionRepository.SaveChangesAsync();
         }
         #endregion
+
 
     }
 }

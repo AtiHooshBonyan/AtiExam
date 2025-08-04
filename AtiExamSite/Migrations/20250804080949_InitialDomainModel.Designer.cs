@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtiExamSite.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20250802091445_InitialDomainModel")]
+    [Migration("20250804080949_InitialDomainModel")]
     partial class InitialDomainModel
     {
         /// <inheritdoc />
@@ -93,6 +93,9 @@ namespace AtiExamSite.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ExamId")
                         .HasColumnType("uniqueidentifier");

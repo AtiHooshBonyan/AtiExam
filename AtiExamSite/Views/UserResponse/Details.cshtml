@@ -52,7 +52,7 @@
                         <div class="mb-2">
                             <strong>Your Answer:</strong>
                             <span class="ms-2 @(result.IsCorrect ? "text-success" : "text-danger")">
-                                @(result.SelectedOption?.Title ?? "<em>No answer selected</em>")
+                                @Html.Raw(result.SelectedOption?.Title ?? "<em>No answer selected</em>")
                             </span>
                         </div>
 
@@ -64,7 +64,7 @@
                             <div class="mb-2">
                                 <strong>Correct Answer:</strong>
                                 <span class="ms-2 text-success">
-                                    @(correctOption?.Title ?? "<em>Not available</em>")
+                                    @Html.Raw(correctOption?.Title ?? "<em>Not available</em>")
                                 </span>
                             </div>
                         }

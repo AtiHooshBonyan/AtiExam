@@ -4,54 +4,66 @@
     ViewData["Title"] = "Create Bulk Questions";
 }
 
-<div class="container">
-    <div class="card">
+<div class="container mt-4">
+    <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h2>Create Bulk Questions</h2>
+            <h2 class="mb-0">Create Bulk Questions</h2>
         </div>
         <div class="card-body">
-            <form asp-action="CreateBulk" method="post">
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <form asp-action="CreateBulk" method="post" novalidate>
+                <div asp-validation-summary="All" class="alert alert-danger visually-hidden" role="alert" aria-live="assertive"></div>
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Difficulty</th>
-                        </tr>
-                    </thead>
-                    <tbody id="questionsBody">
-                        @for (int i = 0; i < Model.Count; i++)
-                        {
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="questionsTable">
+                        <thead class="table-light">
                             <tr>
-                                <td>
-                                    <input asp-for="@Model[i].Title" class="form-control" />
-                                    <span asp-validation-for="@Model[i].Title" class="text-danger"></span>
-                                </td>
-                                <td>
-                                    <select asp-for="@Model[i].DifficultyLevel" class="form-control">
-                                        <option value="">-- Select Difficulty --</option>
-                                        <option value="Easy" selected="@(Model[i].DifficultyLevel == "Easy" ? "selected" : null)">Easy</option>
-                                        <option value="Medium" selected="@(Model[i].DifficultyLevel == "Medium" ? "selected" : null)">Medium</option>
-                                        <option value="Hard" selected="@(Model[i].DifficultyLevel == "Hard" ? "selected" : null)">Hard</option>
-                                    </select>
-                                    <span asp-validation-for="@Model[i].DifficultyLevel" class="text-danger"></span>
-                                </td>
+                                <th style="width:1%;"></th>
+                                <th>Title</th>
+                                <th>Difficulty</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="questionsBody">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-row" aria-label="Remove question">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <input name="[@(i)].Title" value="@Model[i].Title" class="form-control" placeholder="Question title" />
+                                        <span data-valmsg-for="[@(i)].Title" class="text-danger" data-valmsg-replace="true"></span>
+                                    </td>
+                                    <td>
+                                        <select name="[@(i)].DifficultyLevel" class="form-control">
+                                            <option value="">-- Select Difficulty --</option>
+                                            <option value="Easy" @@(Model[i].DifficultyLevel == "Easy" ? "selected" : "")>Easy</option>
+                                            <option value="Medium" @@(Model[i].DifficultyLevel == "Medium" ? "selected" : "")>Medium</option>
+                                            <option value="Hard" @@(Model[i].DifficultyLevel == "Hard" ? "selected" : "")>Hard</option>
+                                        </select>
+                                        <span data-valmsg-for="[@(i)].DifficultyLevel" class="text-danger" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
 
-                <button type="button" class="btn btn-secondary mb-3" onclick="addRow()">
-                    <i class="fas fa-plus"></i> Add Question
-                </button>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-                <div>
+                <div class="d-flex gap-2 mb-3">
+                    <button type="button" class="btn btn-secondary" id="addRowBtn">
+                        <i class="fas fa-plus"></i> Add Question
+                    </button>
+                    <small class="text-muted align-self-center">You can add as many questions as needed.</small>
+                </div>
+
+                <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Create Questions
+                        <i class="fas fa-save me-1"></i> Create Questions
                     </button>
                     <a asp-action="Index" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to List
+                        <i class="fas fa-arrow-left me-1"></i> Back to List
                     </a>
                 </div>
             </form>
@@ -59,31 +71,91 @@
     </div>
 </div>
 
+@* Template row hidden for cloning *@
+<table style="display:none;">
+    <tbody>
+        <tr id="templateRow">
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm btn-outline-danger remove-row" aria-label="Remove question">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+            <td>
+                <input name="__name__.Title" class="form-control" placeholder="Question title" />
+                <span class="text-danger"></span>
+            </td>
+            <td>
+                <select name="__name__.DifficultyLevel" class="form-control">
+                    <option value="">-- Select Difficulty --</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <span class="text-danger"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
     <script>
-        function addRow() {
-            var tableBody = document.getElementById('questionsBody');
-            var index = tableBody.children.length;
+        (function () {
+            const body = document.getElementById('questionsBody');
+            const addBtn = document.getElementById('addRowBtn');
 
-            var row = document.createElement('tr');
-            row.innerHTML = `
-                <td>
-                    <input name="[${index}].Title" class="form-control" />
-                    <span class="text-danger"></span>
-                </td>
-                <td>
-                    <select name="[${index}].DifficultyLevel" class="form-control">
-                        <option value="">-- Select Difficulty --</option>
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                    </select>
-                    <span class="text-danger"></span>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        }
+            function reindexRows() {
+                const rows = body.querySelectorAll('tr');
+                rows.forEach((row, idx) => {
+                    // Title input
+                    const titleInput = row.querySelector('input[name$=".Title"]');
+                    if (titleInput) {
+                        titleInput.name = `[${idx}].Title`;
+                    }
+                    // Difficulty select
+                    const diffSelect = row.querySelector('select[name$=".DifficultyLevel"]');
+                    if (diffSelect) {
+                        diffSelect.name = `[${idx}].DifficultyLevel`;
+                    }
+                    // Validation spans
+                    const titleSpan = row.querySelector('span[asp-validation-for]');
+                    if (titleSpan) {
+                        titleSpan.setAttribute('data-valmsg-for', `[${idx}].Title`);
+                    }
+                    const diffSpan = row.querySelectorAll('span.text-danger')[1];
+                    if (diffSpan) {
+                        diffSpan.setAttribute('data-valmsg-for', `[${idx}].DifficultyLevel`);
+                    }
+                });
+            }
+
+            addBtn.addEventListener('click', function () {
+                const template = document.getElementById('templateRow');
+                const clone = template.cloneNode(true);
+                clone.removeAttribute('id');
+                clone.style.display = '';
+                // Replace placeholder name
+                const titleInput = clone.querySelector('input');
+                const diffSelect = clone.querySelector('select');
+                const currentIndex = body.children.length;
+                titleInput.name = `[${currentIndex}].Title`;
+                diffSelect.name = `[${currentIndex}].DifficultyLevel`;
+                // Clear any values
+                titleInput.value = '';
+                diffSelect.value = '';
+
+                body.appendChild(clone);
+                reindexRows();
+            });
+
+            // Delegate remove
+            body.addEventListener('click', function (e) {
+                if (e.target.closest('.remove-row')) {
+                    const row = e.target.closest('tr');
+                    row.remove();
+                    reindexRows();
+                }
+            });
+        })();
     </script>
 }

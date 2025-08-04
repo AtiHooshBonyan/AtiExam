@@ -11,7 +11,7 @@ namespace AtiExamSite.Services.Contracts
         Task<bool> CreateQuestionsAsync(IEnumerable<Question> questions);
         Task<bool> HasCorrectOptionAsync(Guid questionId);
         Task<int> CountByDifficultyAsync(string difficultyLevel);
-        Task<bool> SetCorrectOptionAsync(Guid questionId);
+        Task<bool> SetCorrectOptionAsync(Guid questionId, Guid correctOptionId);
         Task<Question?> GetQuestionByIdAsync(Guid id);
         Task<bool> UpdateQuestionAsync(Question question);
         Task<bool> DeleteQuestionAsync(Guid questionId);

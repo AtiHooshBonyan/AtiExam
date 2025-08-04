@@ -9,7 +9,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center my-4">
         <h1 class="mb-0">Submit Exam Responses</h1>
-        <div class="alert alert-info p-2 px-3 shadow-sm" id="timerBox">
+        <div class="alert alert-info p-2 px-3 shadow-sm" id="timerBox" role="timer" aria-live="polite">
             ⏱ Time Remaining: <strong id="timerDisplay">--:--</strong>
         </div>
     </div>
@@ -22,7 +22,7 @@
     }
     else
     {
-        <form asp-action="Create" method="post" id="examForm">
+        <form asp-action="Create" method="post" id="examForm" onsubmit="return confirmSubmit();">
             <input type="hidden" name="examId" value="@examId" />
 
             @for (int i = 0; i < questions.Count; i++)
@@ -30,7 +30,7 @@
                 var question = questions[i];
 
                 <div class="card mb-4 shadow-sm">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">@question.Title</h5>
                         <span class="badge bg-light text-dark">@question.DifficultyLevel</span>
                     </div>
@@ -97,7 +97,8 @@
                 timerDisplay.textContent = "00:00";
 
                 // Disable button and auto-submit
-                document.getElementById("submitBtn").disabled = true;
+                const submitBtn = document.getElementById("submitBtn");
+                submitBtn.disabled = true;
                 alert("Time's up! Your exam is being submitted.");
                 document.getElementById("examForm").submit();
                 return;
@@ -109,5 +110,11 @@
 
         const timerInterval = setInterval(updateTimer, 1000);
         updateTimer(); // run once immediately
+
+        function confirmSubmit() {
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            return confirm("Are you sure you want to submit your responses?");
+        }
     </script>
 }

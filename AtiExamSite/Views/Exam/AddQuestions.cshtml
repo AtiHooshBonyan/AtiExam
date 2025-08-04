@@ -2,36 +2,40 @@
 
 @{
     ViewData["Title"] = $"Add Questions to {Model.Title}";
+    var availableQuestions = ViewBag.AvailableQuestions as IEnumerable<AtiExamSite.Models.DomainModels.Question>;
 }
 
-<div class="container">
+<div class="container mt-4">
     <h1>Add Questions to @Model.Title</h1>
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     }
 
     <form asp-action="AddQuestions" method="post">
         <input type="hidden" name="examId" value="@Model.Id" />
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>Available Questions</h5>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Available Questions</h5>
             </div>
             <div class="card-body">
-                @if (ViewBag.AvailableQuestions != null && ((IEnumerable<Question>)ViewBag.AvailableQuestions).Any())
+                @if (availableQuestions != null && availableQuestions.Any())
                 {
                     <div class="list-group">
-                        @foreach (var question in (IEnumerable<Question>)ViewBag.AvailableQuestions)
+                        @foreach (var question in availableQuestions)
                         {
                             <div class="list-group-item">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                           name="questionIds" value="@question.Id" id="question_@question.Id">
+                                           name="questionIds" value="@question.Id" id="question_@question.Id" />
                                     <label class="form-check-label" for="question_@question.Id">
                                         @question.Title
-                                        <span class="badge @GetDifficultyBadgeClass(question.DifficultyLevel)">
+                                        <span class="badge ms-2 @GetDifficultyBadgeClass(question.DifficultyLevel)">
                                             @question.DifficultyLevel
                                         </span>
                                     </label>
@@ -42,16 +46,18 @@
                 }
                 else
                 {
-                    <div class="alert alert-info">No available questions to add.</div>
+                    <div class="alert alert-info mb-0">No available questions to add.</div>
                 }
             </div>
         </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" @(ViewBag.AvailableQuestions != null && ((IEnumerable<Question>)ViewBag.AvailableQuestions).Any() ? "" : "disabled")>
-                Add Selected Questions
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary" @(availableQuestions != null && availableQuestions.Any() ? "" : "disabled")>
+                <i class="fas fa-plus me-1"></i> Add Selected Questions
             </button>
-            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Back to Exam</a>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary ms-2">
+                <i class="fas fa-arrow-left me-1"></i> Back to Exam
+            </a>
         </div>
     </form>
 </div>
@@ -62,7 +68,7 @@
         return difficulty switch
         {
             "Easy" => "bg-success",
-            "Medium" => "bg-warning",
+            "Medium" => "bg-warning text-dark",
             "Hard" => "bg-danger",
             _ => "bg-secondary"
         };

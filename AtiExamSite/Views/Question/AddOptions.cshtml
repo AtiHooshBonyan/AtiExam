@@ -1,8 +1,7 @@
-﻿@model Guid
-
-@{
+﻿@{
     ViewData["Title"] = "Add Options to Question";
-    var options = ViewBag.AvailableOptions as IEnumerable<AtiExamSite.Models.DomainModels.Option>;
+    var options = ViewBag.AvailableOptions as IEnumerable<dynamic>;
+    Guid? currentCorrect = ViewBag.CurrentCorrectOptionId as Guid?;
 }
 
 <div class="container mt-4">
@@ -15,49 +14,66 @@
             }
         </div>
         <div class="card-body">
+            @* Feedback *@
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+            }
+            @if (TempData["WarningMessage"] != null)
+            {
+                <div class="alert alert-warning">@TempData["WarningMessage"]</div>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+
             <form asp-action="AddOptions" method="post" id="optionsForm">
                 <input type="hidden" name="questionId" value="@ViewBag.QuestionId" />
 
                 <div class="row mb-3">
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input type="text" id="optionSearch" class="form-control" placeholder="Search options...">
-                            <button class="btn btn-outline-secondary" type="button" id="clearOptionSearch">
+                            <input type="text" id="optionSearch" class="form-control" placeholder="Search options..." aria-label="Search options" />
+                            <button class="btn btn-outline-secondary" type="button" id="clearOptionSearch" aria-label="Clear search">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
                     </div>
-
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="selectAllOptions">
-                        <label class="form-check-label fw-bold" for="selectAllOptions">
-                            Select/Deselect All
-                        </label>
+                    <div class="col-md-4 text-end">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="selectAllOptions" />
+                            <label class="form-check-label fw-bold" for="selectAllOptions">
+                                Select/Deselect All
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 @if (options != null && options.Any())
                 {
-                    <div class="options-container" style="max-height: 500px; overflow-y: auto;">
+                    <div class="options-container" style="max-height:500px; overflow-y:auto;">
                         @foreach (var option in options)
                         {
-                            <div class="card mb-2 option-card" data-correct="@option.IsCorrect.ToString().ToLower()">
+                            bool isCorrect = option.IsCorrect;
+                            <div class="card mb-2 option-card" data-title="@(option.Title.ToString().ToLower())" data-correct="@(isCorrect.ToString().ToLower())">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-md-1 text-center">
                                             <input class="form-check-input option-checkbox" type="checkbox"
                                                    name="optionIds" value="@option.Id" id="option_@option.Id" />
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-7">
                                             <label class="form-check-label option-text fw-bold" for="option_@option.Id">
                                                 @option.Title
                                             </label>
                                         </div>
-                                        <div class="col-md-2">
-                                            <input type="radio" class="form-check-input" name="CorrectOptionId" value="@option.Id"
-                                                   id="correctOption_@option.Id" @(option.IsCorrect ? "checked" : "") />
-                                            <label for="correctOption_@option.Id" class="ms-1">Correct</label>
+                                        <div class="col-md-4">
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio" class="form-check-input" name="CorrectOptionId" value="@option.Id"
+                                                       id="correctOption_@option.Id" @(isCorrect ? "checked" : "") />
+                                                <label for="correctOption_@option.Id" class="ms-1">Correct</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -85,35 +101,34 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
+        $(function () {
             // Select/Deselect all
-            $('#selectAllOptions').change(function () {
+            $('#selectAllOptions').on('change', function () {
                 $('.option-checkbox').prop('checked', $(this).prop('checked'));
             });
 
+            // Keep master checkbox in sync
+            $('.options-container').on('change', '.option-checkbox', function () {
+                const all = $('.option-checkbox');
+                const checked = all.filter(':checked');
+                $('#selectAllOptions').prop('checked', all.length === checked.length);
+            });
+                    $('input[name="CorrectOptionId"]').on('change', function () {
+            const correctId = $(this).val();
+            $('#option_' + correctId).prop('checked', true);
+        });
             // Search filter
-            $('#optionSearch').keyup(function () {
+            $('#optionSearch').on('input', function () {
                 const searchText = $(this).val().toLowerCase();
                 $('.option-card').each(function () {
-                    const optionText = $(this).find('.option-text').text().toLowerCase();
-                    $(this).toggle(optionText.includes(searchText));
+                    const title = $(this).data('title') || '';
+                    $(this).toggle(title.includes(searchText));
                 });
             });
 
             // Clear search
-            $('#clearOptionSearch').click(function () {
-                $('#optionSearch').val('').keyup();
-            });
-
-            // Filter by correct options
-            $('#showCorrectOnly').change(function () {
-                if ($(this).is(':checked')) {
-                    $('.option-card').each(function () {
-                        $(this).toggle($(this).data('correct') === 'true');
-                    });
-                } else {
-                    $('.option-card').show();
-                }
+            $('#clearOptionSearch').on('click', function () {
+                $('#optionSearch').val('').trigger('input');
             });
         });
     </script>

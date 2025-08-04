@@ -4,21 +4,26 @@
     ViewData["Title"] = "Exams";
 }
 
-<div class="container">
+<div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Exams</h1>
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus me-1"></i> Create New
+        </a>
     </div>
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     }
 
-    <div class="card">
-        <div class="card-body">
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Title</th>
@@ -26,29 +31,54 @@
                             <th>Time Limit</th>
                             <th>Questions</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th style="width: 180px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var exam in Model)
+                        @if (Model.Any())
+                        {
+                            foreach (var exam in Model)
+                            {
+                                <tr>
+                                    <td>@exam.Title</td>
+                                    <td title="@exam.Description">
+                                        @(string.IsNullOrEmpty(exam.Description)
+                                                                        ? "-"
+                                                                        : exam.Description.Length > 50
+                                                                        ? exam.Description.Substring(0, 50) + "..."
+                                                                        : exam.Description)
+                            </td>
+                            <td>@(exam.TimeLimitMinutes.HasValue ? $"{exam.TimeLimitMinutes} min" : "N/A")</td>
+                            <td>@exam.QuestionCount</td>
+                            <td>
+                                <span class="badge @(exam.IsActive ? "bg-success" : "bg-secondary")">
+                                    @(exam.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Exam actions">
+                                    <a asp-action="Details" asp-route-id="@exam.Id" class="btn btn-sm btn-info" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@exam.Id" class="btn btn-sm btn-warning" title="Edit Exam">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@exam.Id" class="btn btn-sm btn-danger" title="Delete Exam" onclick="return confirm('Are you sure you want to delete this exam?');">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <a asp-action="AddQuestions" asp-route-examId="@exam.Id" class="btn btn-sm btn-primary" title="Add Questions">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                                                }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@exam.Title</td>
-                                <td>@(exam.Description?.Length > 50 ? exam.Description.Substring(0, 50) + "..." : exam.Description)</td>
-                                <td>@(exam.TimeLimitMinutes?.ToString() ?? "N/A") min</td>
-                                <td>@exam.QuestionCount</td>
-                                <td>
-                                    <span class="badge @(exam.IsActive ? "bg-success" : "bg-secondary")">
-                                        @(exam.IsActive ? "Active" : "Inactive")
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a asp-action="Details" asp-route-id="@exam.Id" class="btn btn-sm btn-info">Details</a>
-                                        <a asp-action="Edit" asp-route-id="@exam.Id" class="btn btn-sm btn-warning">Edit</a>
-                                        <a asp-action="Delete" asp-route-id="@exam.Id" class="btn btn-sm btn-danger">Delete</a>
-                                        <a asp-action="AddQuestions" asp-route-examId="@exam.Id" class="btn btn-sm btn-primary">Add Qs</a>
-                                    </div>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    No exams available.
                                 </td>
                             </tr>
                         }

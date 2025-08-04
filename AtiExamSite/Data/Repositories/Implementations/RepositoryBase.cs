@@ -1,6 +1,7 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
 using AtiExamSite.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AtiExamSite.Data.Repositories.Implementations
 {
@@ -36,11 +37,33 @@ namespace AtiExamSite.Data.Repositories.Implementations
         }
         #endregion
 
+        #region [- GetByIdsAsync() -]
+        public async Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids)
+        {
+            // Assumes T has a property named "Id" of type Guid
+            var parameter = Expression.Parameter(typeof(T), "e");
+            var property = Expression.PropertyOrField(parameter, "Id");
+            if (property.Type != typeof(Guid))
+                throw new InvalidOperationException("Entity does not have a Guid Id property.");
+
+            var containsMethod = typeof(Enumerable)
+                .GetMethods()
+                .First(m => m.Name == "Contains" && m.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(Guid));
+
+            var idsConstant = Expression.Constant(ids);
+            var body = Expression.Call(containsMethod, idsConstant, property);
+            var lambda = Expression.Lambda<Func<T, bool>>(body, parameter);
+
+            return await _dbContext.Set<T>().Where(lambda).ToListAsync();
+        } 
+        #endregion
+
         #region [- AddRangeAsync() -]
         public async Task AddRangeAsync(IEnumerable<Question> questions)
         {
             await _dbContext.Set<Question>().AddRangeAsync(questions);
-        } 
+        }
         #endregion
 
         #region [- UpdateAsync() -]

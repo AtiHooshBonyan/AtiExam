@@ -134,10 +134,10 @@ namespace AtiExamSite.Web.Controllers
             if (exam == null)
                 return NotFound("Exam not found.");
 
-            // Check if user already started this exam
             var session = await _examSessionService.GetSessionAsync(examId);
             if (session == null)
             {
+                // No active session, create new one
                 session = new ExamSession
                 {
                     Id = Guid.NewGuid(),
@@ -146,15 +146,20 @@ namespace AtiExamSite.Web.Controllers
                 };
                 await _examSessionService.CreateAsync(session);
             }
+            else if (session.IsCompleted)
+            {
+                // Session completed - redirect user to their score page instead of retaking exam
+                return RedirectToAction(nameof(GetScore), new { examId });
+            }
 
-            // Time check
+            // Time check for ongoing session
             var timeElapsed = DateTime.UtcNow - session.StartTime;
             var allowedTime = TimeSpan.FromMinutes(exam.TimeLimitMinutes ?? 0);
 
             if (timeElapsed > allowedTime)
             {
                 TempData["Error"] = "Time expired.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetScore), new { examId });
             }
 
             var questions = await _examQuestionService.GetExamQuestionsAsync(examId);
@@ -167,43 +172,56 @@ namespace AtiExamSite.Web.Controllers
         }
 
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Guid examId, List<UserResponse> responses)
         {
-            //var userId = UserIdHelper.GetCurrentUserId(HttpContext) ?? Guid.Empty;
-
-            if (responses == null || responses.Count == 0)
+            if (responses == null || !responses.Any())
             {
                 ModelState.AddModelError("", "Please submit at least one response.");
-
                 var questions = await _questionService.GetWithOptionsAsync(examId);
                 ViewBag.ExamId = examId;
-                //ViewBag.UserId = userId;
-
                 return View(questions);
             }
 
+            // Get existing session
+            var session = await _examSessionService.GetSessionAsync(examId);
+            if (session == null)
+            {
+                return BadRequest("Session not found.");
+            }
+
+            if (session.IsCompleted)
+            {
+                TempData["Error"] = "This exam session has already been completed.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Attach examId and optionally userId
             foreach (var response in responses)
             {
-                //response.UserId = userId;
                 response.ExamId = examId;
+                // response.UserId = userId; // if you're setting user
             }
 
             var success = await _userResponseService.SubmitResponsesAsync(responses);
             if (!success)
             {
                 ModelState.AddModelError("", "Failed to submit responses.");
-
                 var questions = await _questionService.GetWithOptionsAsync(examId);
                 ViewBag.ExamId = examId;
-                //ViewBag.UserId = userId;
-
                 return View(questions);
             }
 
+            // **End the session immediately**
+            session.EndTime = DateTime.UtcNow;
+            await _examSessionService.UpdateAsync(session); 
+
             return RedirectToAction(nameof(GetScore), new { examId });
         }
+
         #endregion
     }
 }
