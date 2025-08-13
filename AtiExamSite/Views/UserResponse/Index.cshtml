@@ -3,8 +3,8 @@
 
 @{
     // Safely cast UserResults from ViewBag or create empty dictionary
-    var userResults = ViewBag.UserResults as Dictionary<Guid, (int Score, bool Passed)>
-                      ?? new Dictionary<Guid, (int Score, bool Passed)>();
+    var userResults = ViewBag.UserResults as Dictionary<string, (int Score, bool Passed)>
+                      ?? new Dictionary<string, (int Score, bool Passed)>();
 }
 
 <div class="container py-4">

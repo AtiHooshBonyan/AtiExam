@@ -4,17 +4,17 @@ namespace AtiExamSite.Services.Contracts
 {
     public interface IQuestionService
     {
-        Task<Question?> GetWithOptionsAsync(Guid id);
+        Task<Question?> GetWithOptionsAsync(string id);
         Task<List<Question>> GetAllQuestionsAsync();
         Task<IEnumerable<Question>> GetByDifficultyAsync(string difficultyLevel);
         Task<bool> CreateQuestionAsync(Question question);
         Task<bool> CreateQuestionsAsync(IEnumerable<Question> questions);
-        Task<bool> HasCorrectOptionAsync(Guid questionId);
+        Task<bool> HasCorrectOptionAsync(string questionId);
         Task<int> CountByDifficultyAsync(string difficultyLevel);
-        Task<bool> SetCorrectOptionAsync(Guid questionId, Guid correctOptionId);
-        Task<Question?> GetQuestionByIdAsync(Guid id);
+        Task<bool> SetCorrectOptionAsync(string questionId, string correctOptionId);
+        Task<Question?> GetQuestionByIdAsync(string id);
         Task<bool> UpdateQuestionAsync(Question question);
-        Task<bool> DeleteQuestionAsync(Guid questionId);
+        Task<bool> DeleteQuestionAsync(string questionId);
 
     }
 }

@@ -11,13 +11,13 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(string title, Guid? excludeExamId = null)
+        public async Task<bool> ExistsAsync(string title, string? excludeExamId = null)
         {
             var query = _dbContext.Exams.Where(e => e.Title == title);
 
-            if (excludeExamId.HasValue)
+            if (!string.IsNullOrEmpty(excludeExamId))
             {
-                query = query.Where(e => e.Id != excludeExamId.Value);
+                query = query.Where(e => e.Id != excludeExamId);
             }
 
             return await query.AnyAsync();
@@ -25,7 +25,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetExamWithQuestionsAsync() -]
-        public async Task<Exam?> GetExamWithQuestionsAsync(Guid examId)
+        public async Task<Exam?> GetExamWithQuestionsAsync(string examId)
         {
             return await _dbContext.Exams
                 .Include(e => e.ExamQuestions)
@@ -41,14 +41,14 @@ namespace AtiExamSite.Data.Repositories.Implementations
                 return new List<Question>();
 
             return await _dbContext.Questions
-                .OrderBy(q => Guid.NewGuid())
+                .OrderBy(q => Guid.NewGuid().ToString())
                 .Take(count)
                 .ToListAsync();
         }
         #endregion
 
         #region [- IsActiveAsync() -]
-        public async Task<bool> IsActiveAsync(Guid examId)
+        public async Task<bool> IsActiveAsync(string examId)
         {
             var exam = await GetByIdAsync(examId);
             return exam?.IsActive ?? false;

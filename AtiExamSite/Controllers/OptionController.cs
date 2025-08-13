@@ -26,7 +26,7 @@ namespace AtiExamSite.Controllers
 
         #region [- Details() -]
         [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(string id)
         {
             var option = await _optionService.GetByIdAsync(id);
             if (option == null) return NotFound();
@@ -36,7 +36,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- GetByQuestion() -]
-        public async Task<IActionResult> GetByQuestion(Guid questionId)
+        public async Task<IActionResult> GetByQuestion(string questionId)
         {
             var options = await _optionService.GetOptionsByQuestionAsync(questionId);
             return View(options);
@@ -44,7 +44,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- GetCorrectForQuestion() -]
-        public async Task<IActionResult> GetCorrectForQuestion(Guid questionId)
+        public async Task<IActionResult> GetCorrectForQuestion(string questionId)
         {
             var option = await _optionService.GetCorrectOptionForQuestionAsync(questionId);
             if (option == null)
@@ -81,7 +81,7 @@ namespace AtiExamSite.Controllers
 
         #region [- Edit() -]
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
             var option = await _optionService.GetByIdAsync(id);
             if (option == null)
@@ -93,7 +93,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Option option)
+        public async Task<IActionResult> Edit(string id, Option option)
         {
             if (id != option.Id)
                 return BadRequest();
@@ -112,7 +112,7 @@ namespace AtiExamSite.Controllers
 
         #region [- Delete() -]
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             var option = await _optionService.GetByIdAsync(id);
             if (option == null)
@@ -124,7 +124,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var success = await _optionService.DeleteOptionAsync(id);
             if (!success)
@@ -137,7 +137,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- VerifyCorrectOption() -]
-        public async Task<IActionResult> VerifyCorrectOption(Guid optionId)
+        public async Task<IActionResult> VerifyCorrectOption(string optionId)
         {
             var isCorrect = await _optionService.IsCorrectOptionAsync(optionId);
             return View(isCorrect);

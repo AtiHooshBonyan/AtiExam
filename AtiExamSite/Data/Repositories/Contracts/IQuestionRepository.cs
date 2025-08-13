@@ -5,9 +5,9 @@ namespace AtiExamSite.Data.Repositories.Contracts
     public interface IQuestionRepository : IRepositoryBase<Question>
     {
         Task<List<Question>> GetAllQuestionsAsync();
-        Task<Question?> GetQuestionWithOptionsAsync(Guid id);
+        Task<Question?> GetQuestionWithOptionsAsync(string id);
         Task<IEnumerable<Question>> GetQuestionsByDifficultyAsync(string difficultyLevel);
-        Task<bool> HasCorrectOptionAsync(Guid questionId);
+        Task<bool> HasCorrectOptionAsync(string questionId);
         Task<int> CountByDifficultyAsync(string difficultyLevel); 
 
     }

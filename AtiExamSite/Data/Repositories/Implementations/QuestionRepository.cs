@@ -18,7 +18,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetQuestionWithOptionsAsync() -]
-        public async Task<Question?> GetQuestionWithOptionsAsync(Guid id)
+        public async Task<Question?> GetQuestionWithOptionsAsync(string id)
         {
             var question = await _dbContext.Questions
             .Include(q => q.QuestionOptions)
@@ -37,7 +37,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- HasCorrectOptionAsync() -]
-        public async Task<bool> HasCorrectOptionAsync(Guid questionId)
+        public async Task<bool> HasCorrectOptionAsync(string questionId)
         {
             return await _dbContext.QuestionOptions
                 .Where(qo => qo.QuestionId == questionId)

@@ -16,7 +16,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetByUserAndExamAsync() -]
-        public async Task<ExamSession> GetByUserAndExamAsync(Guid examId)
+        public async Task<ExamSession> GetByUserAndExamAsync(string examId)
         {
             return await _dbContext.ExamSessions
                 .FirstOrDefaultAsync(s => s.ExamId == examId);

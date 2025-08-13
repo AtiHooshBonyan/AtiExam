@@ -18,14 +18,14 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- ExamExistsAsync() -]
-        public async Task<bool> ExamExistsAsync(string title, Guid? excludeExamId = null)
+        public async Task<bool> ExamExistsAsync(string title, string? excludeExamId = null)
         {
             return await _examRepository.ExistsAsync(title, excludeExamId);
         }
         #endregion
 
         #region [- GetExamWithQuestionsAsync() -]
-        public async Task<Exam?> GetExamWithQuestionsAsync(Guid examId)
+        public async Task<Exam?> GetExamWithQuestionsAsync(string examId)
         {
             return await _examRepository.GetExamWithQuestionsAsync(examId);
         }
@@ -40,7 +40,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
   
         #region [- GetByIdAsync() -]
-        public async Task<Exam?> GetByIdAsync(Guid id)
+        public async Task<Exam?> GetByIdAsync(string id)
         {
             return await _examRepository.GetByIdAsync(id);
         }
@@ -57,13 +57,19 @@ namespace AtiExamSite.Services.Implementations
         #region [- AddAsync() -]
         public async Task<bool> AddAsync(Exam entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
             if (await _examRepository.ExistsAsync(entity.Title))
                 throw new InvalidOperationException($"Exam with title '{entity.Title}' already exists");
+
+            if (string.IsNullOrEmpty(entity.Id))
+                entity.Id = Guid.NewGuid().ToString();
 
             await _examRepository.AddAsync(entity);
             return await _examRepository.SaveChangesAsync();
         }
+
         #endregion
 
         #region [- UpdateAsync() -]
@@ -79,7 +85,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- DeleteAsync() -]
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var exam = await _examRepository.GetByIdAsync(id);
             if (exam == null) return false;

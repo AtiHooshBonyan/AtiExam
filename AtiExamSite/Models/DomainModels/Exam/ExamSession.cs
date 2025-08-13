@@ -2,8 +2,8 @@
 {
     public class ExamSession
     {
-        public Guid Id { get; set; }
-        public Guid ExamId { get; set; }
+        public string Id { get; set; }
+        public string ExamId { get; set; }
         public DateTime StartTime { get; set; }
 
         public DateTime? EndTime { get; set; }

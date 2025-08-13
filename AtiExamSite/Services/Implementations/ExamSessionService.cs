@@ -16,7 +16,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetSessionAsync() -]
-        public async Task<ExamSession> GetSessionAsync(Guid examId)
+        public async Task<ExamSession> GetSessionAsync(string examId)
             => await _examSessionRepository.GetByUserAndExamAsync(examId);
         #endregion
 

@@ -2,9 +2,9 @@
 {
     public class ExamQuestion
     {
-        public Guid Id { get; set; }
-        public Guid ExamId { get; set; }
-        public Guid QuestionId { get; set; }
+        public string Id { get; set; }
+        public string ExamId { get; set; }
+        public string QuestionId { get; set; }
 
 
         // Navigation Properties

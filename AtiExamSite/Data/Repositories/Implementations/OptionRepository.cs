@@ -11,7 +11,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetOptionsByQuestionAsync() -]
-        public async Task<IEnumerable<Option>> GetOptionsByQuestionAsync(Guid questionId)
+        public async Task<IEnumerable<Option>> GetOptionsByQuestionAsync(string questionId)
         {
             return await _dbContext.QuestionOptions
                 .Where(qo => qo.QuestionId == questionId)
@@ -24,7 +24,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetCorrectOptionForQuestionAsync() -]
-        public async Task<Option?> GetCorrectOptionForQuestionAsync(Guid questionId)
+        public async Task<Option?> GetCorrectOptionForQuestionAsync(string questionId)
         {
             return await _dbContext.QuestionOptions
                 .Where(qo => qo.QuestionId == questionId)
@@ -37,7 +37,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- IsCorrectOptionAsync() -]
-        public async Task<bool> IsCorrectOptionAsync(Guid optionId)
+        public async Task<bool> IsCorrectOptionAsync(string optionId)
         {
             var option = await GetByIdAsync(optionId);
             return option?.IsCorrect ?? false;

@@ -4,9 +4,9 @@ namespace AtiExamSite.Data.Repositories.Contracts
 {
     public interface IOptionRepository : IRepositoryBase<Option>
     {
-        Task<IEnumerable<Option>> GetOptionsByQuestionAsync(Guid questionId);
-        Task<Option?> GetCorrectOptionForQuestionAsync(Guid questionId);
-        Task<bool> IsCorrectOptionAsync(Guid optionId);
+        Task<IEnumerable<Option>> GetOptionsByQuestionAsync(string questionId);
+        Task<Option?> GetCorrectOptionForQuestionAsync(string questionId);
+        Task<bool> IsCorrectOptionAsync(string optionId);
         Task UpdateOptionAsync(Option updatedOption);
     }
 }

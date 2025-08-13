@@ -11,7 +11,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetByQuestionIdAsync() -]
-        public async Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(Guid questionId)
+        public async Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(string questionId)
         {
             return await _dbContext.QuestionOptions
                 .Where(qo => qo.QuestionId == questionId)
@@ -20,7 +20,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- AddOptionsToQuestionAsync() -]
-        public async Task<bool> AddOptionsToQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds)
+        public async Task<bool> AddOptionsToQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {
             if (optionIds == null || !optionIds.Any())
                 return false;
@@ -40,7 +40,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- RemoveOptionsFromQuestionAsync() -]
-        public async Task<bool> RemoveOptionsFromQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds)
+        public async Task<bool> RemoveOptionsFromQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {
             var optionsToRemove = await _dbContext.QuestionOptions
                 .Where(qo => qo.QuestionId == questionId && optionIds.Contains(qo.OptionId))

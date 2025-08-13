@@ -4,9 +4,9 @@ namespace AtiExamSite.Data.Repositories.Contracts
 {
     public interface IExamQuestionRepository : IRepositoryBase<ExamQuestion>
     {
-        Task<bool> ExistsAsync(Guid examId, Guid questionId);
-        Task<IEnumerable<ExamQuestion>> GetByExamIdAsync(Guid examId);
-        Task<bool> AddQuestionsToExamAsync(Guid examId, IEnumerable<Guid> questionIds);
-        Task<int> CountQuestionsInExamAsync(Guid examId); 
+        Task<bool> ExistsAsync(string examId, string questionId);
+        Task<IEnumerable<ExamQuestion>> GetByExamIdAsync(string examId);
+        Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds);
+        Task<int> CountQuestionsInExamAsync(string examId); 
     }
 }

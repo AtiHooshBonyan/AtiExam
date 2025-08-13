@@ -11,7 +11,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(Guid examId, Guid questionId)
+        public async Task<bool> ExistsAsync(string examId, string questionId)
         {
             return await _dbContext.ExamQuestions
                 .AnyAsync(eq => eq.ExamId == examId && eq.QuestionId == questionId);
@@ -19,7 +19,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetByExamIdAsync() -]
-        public async Task<IEnumerable<ExamQuestion>> GetByExamIdAsync(Guid examId)
+        public async Task<IEnumerable<ExamQuestion>> GetByExamIdAsync(string examId)
         {
             return await _dbContext.ExamQuestions
             .Where(eq => eq.ExamId == examId)
@@ -33,7 +33,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- AddQuestionsToExamAsync() -]
-        public async Task<bool> AddQuestionsToExamAsync(Guid examId, IEnumerable<Guid> questionIds)
+        public async Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds)
         {
             var existingQuestions = await _dbContext.ExamQuestions
                 .Where(eq => eq.ExamId == examId)
@@ -50,7 +50,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- CountQuestionsInExamAsync() -]
-        public async Task<int> CountQuestionsInExamAsync(Guid examId)
+        public async Task<int> CountQuestionsInExamAsync(string examId)
         {
             return await _dbContext.ExamQuestions
                 .CountAsync(eq => eq.ExamId == examId);

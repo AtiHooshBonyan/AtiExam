@@ -4,8 +4,8 @@ namespace AtiExamSite.Data.Repositories.Contracts
 {
     public interface IQuestionOptionRepository : IRepositoryBase<QuestionOption>
     {
-        Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(Guid questionId);
-        Task<bool> AddOptionsToQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds);
-        Task<bool> RemoveOptionsFromQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds); 
+        Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(string questionId);
+        Task<bool> AddOptionsToQuestionAsync(string questionId, IEnumerable<string> optionIds);
+        Task<bool> RemoveOptionsFromQuestionAsync(string questionId, IEnumerable<string> optionIds); 
     }
 }

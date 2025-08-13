@@ -1,6 +1,7 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
 using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtiExamSite.Services.Implementations
 {
@@ -16,20 +17,30 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- AddQuestionsToExamAsync() -]
-        public async Task<bool> AddQuestionsToExamAsync(Guid examId, IEnumerable<Guid> questionIds)
+        public async Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds)
         {
-            if (examId == Guid.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
-            if (questionIds == null || !questionIds.Any())
-                throw new ArgumentException("Question IDs cannot be null or empty", nameof(questionIds));
+            foreach (var qid in questionIds)
+            {
+                var eq = new ExamQuestion
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    ExamId = examId,
+                    QuestionId = qid
+                };
 
-            return await _examQuestionRepository.AddQuestionsToExamAsync(examId, questionIds);
+                await _examQuestionRepository.AddAsync(eq);
+            }
+
+            await _examQuestionRepository.SaveChangesAsync();
+            return true;
         }
+
         #endregion
 
         #region [- GetExamQuestionsAsync() -]
-        public async Task<IEnumerable<Question>> GetExamQuestionsAsync(Guid examId)
+        public async Task<IEnumerable<Question>> GetExamQuestionsAsync(string examId)
         {
-            if (examId == Guid.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
+            if (examId == string.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
             var examQuestions = await _examQuestionRepository.GetByExamIdAsync(examId);
             return examQuestions?.Select(eq => eq.Question).ToList().AsReadOnly()
@@ -38,19 +49,19 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(Guid examId, Guid questionId)
+        public async Task<bool> ExistsAsync(string examId, string questionId)
         {
-            if (examId == Guid.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (examId == string.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
+            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
 
             return await _examQuestionRepository.ExistsAsync(examId, questionId);
         }
         #endregion
 
         #region [- CountQuestionsInExamAsync() -]
-        public async Task<int> CountQuestionsInExamAsync(Guid examId)
+        public async Task<int> CountQuestionsInExamAsync(string examId)
         {
-            if (examId == Guid.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
+            if (examId == string.Empty) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
             return await _examQuestionRepository.CountQuestionsInExamAsync(examId);
         }
         #endregion

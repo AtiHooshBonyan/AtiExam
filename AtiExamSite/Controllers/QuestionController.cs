@@ -42,7 +42,7 @@ namespace AtiExamSite.Controllers
 
         #region [- Details() -]
         [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(string id)
         {
             var question = await _questionService.GetWithOptionsAsync(id);
             if (question == null) return NotFound();
@@ -73,7 +73,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- VerifyHasCorrectOption() -]
-        public async Task<IActionResult> VerifyHasCorrectOption(Guid questionId)
+        public async Task<IActionResult> VerifyHasCorrectOption(string questionId)
         {
             var hasCorrectOption = await _questionService.HasCorrectOptionAsync(questionId);
             return View(hasCorrectOption);
@@ -97,7 +97,7 @@ namespace AtiExamSite.Controllers
             ViewBag.Options = await _optionService.GetAllOptionsAsync();
 
 
-            model.Id = Guid.NewGuid();
+            model.Id = Guid.NewGuid().ToString();
             await _questionService.CreateQuestionAsync(model);
 
             return RedirectToAction(nameof(Index));
@@ -128,7 +128,7 @@ namespace AtiExamSite.Controllers
 
             foreach (var question in model)
             {
-                question.Id = Guid.NewGuid();
+                question.Id = Guid.NewGuid().ToString();
             }
 
             var result = await _questionService.CreateQuestionsAsync(model);
@@ -146,7 +146,7 @@ namespace AtiExamSite.Controllers
         #region [- Edit() -]
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
             var question = await _questionService.GetQuestionByIdAsync(id);
             if (question == null)
@@ -159,7 +159,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Question model)
+        public async Task<IActionResult> Edit(string id, Question model)
         {
             if (id != model.Id)
             {
@@ -188,7 +188,7 @@ namespace AtiExamSite.Controllers
         #region [- Delete() -]
 
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             var question = await _questionService.GetQuestionByIdAsync(id);
             if (question == null)
@@ -201,7 +201,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var deleteSuccess = await _questionService.DeleteQuestionAsync(id);
 
@@ -220,14 +220,14 @@ namespace AtiExamSite.Controllers
         #region [- AddOptions() -]
 
         [HttpGet]
-        public async Task<IActionResult> AddOptions(Guid questionId)
+        public async Task<IActionResult> AddOptions(string questionId)
         {
             var question = await _questionService.GetWithOptionsAsync(questionId);
             if (question == null)
             {
                 return NotFound();
             }
-
+            
             var allOptions = await _optionService.GetAllOptionsAsync();
             var assignedOptionIds = (await _questionOptionService.GetByQuestionIdAsync(questionId))
                 .Select(qo => qo.OptionId)
@@ -240,12 +240,12 @@ namespace AtiExamSite.Controllers
             ViewBag.QuestionId = questionId;
             ViewBag.QuestionTitle = question.Title;
             ViewBag.AvailableOptions = availableOptions;
-            return View(questionId); 
+            return View(); 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOptions(Guid questionId, IEnumerable<Guid> optionIds, Guid? CorrectOptionId)
+        public async Task<IActionResult> AddOptions(string questionId, IEnumerable<string> optionIds, string? CorrectOptionId)
         {
             if (optionIds == null || !optionIds.Any())
             {
@@ -253,7 +253,7 @@ namespace AtiExamSite.Controllers
                 return RedirectToAction(nameof(AddOptions), new { questionId });
             }
 
-            if (CorrectOptionId.HasValue && !optionIds.Contains(CorrectOptionId.Value))
+            if (!string.IsNullOrEmpty(CorrectOptionId) && !optionIds.Contains(CorrectOptionId))
             {
                 TempData["ErrorMessage"] = "Correct option must be among the selected options.";
                 return RedirectToAction(nameof(AddOptions), new { questionId });
@@ -266,9 +266,9 @@ namespace AtiExamSite.Controllers
                 return RedirectToAction(nameof(AddOptions), new { questionId });
             }
 
-            if (CorrectOptionId.HasValue)
+            if (!string.IsNullOrEmpty(CorrectOptionId))
             {
-                var setCorrectSuccess = await _questionService.SetCorrectOptionAsync(questionId, CorrectOptionId.Value);
+                var setCorrectSuccess = await _questionService.SetCorrectOptionAsync(questionId, CorrectOptionId);
                 if (!setCorrectSuccess)
                 {
                     TempData["WarningMessage"] = "Options added, but setting the correct answer failed.";
@@ -279,13 +279,12 @@ namespace AtiExamSite.Controllers
             return RedirectToAction(nameof(Details), new { id = questionId });
         }
 
-
         #endregion
 
         #region [- RemoveOptions() -]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveOptions(Guid questionId, IEnumerable<Guid> optionIds)
+        public async Task<IActionResult> RemoveOptions(string questionId, IEnumerable<string> optionIds)
         {
             if (optionIds == null || !optionIds.Any())
             {

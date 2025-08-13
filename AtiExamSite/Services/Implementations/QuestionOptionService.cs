@@ -1,6 +1,7 @@
 ﻿using AtiExamSite.Data.Repositories.Contracts;
 using AtiExamSite.Models.DomainModels.Exam;
 using AtiExamSite.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtiExamSite.Services.Implementations
 {
@@ -16,28 +17,38 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- AddOptionsToQuestionAsync() -]
-        public async Task<bool> AddOptionsToQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds)
+        public async Task<bool> AddOptionsToQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
-            if (optionIds == null || !optionIds.Any())
-                throw new ArgumentException("Option IDs cannot be null or empty", nameof(optionIds));
+            foreach (var optionId in optionIds)
+            {
+                var qo = new QuestionOption
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    QuestionId = questionId,
+                    OptionId = optionId
+                };
 
-            return await _questionOptionRepository.AddOptionsToQuestionAsync(questionId, optionIds);
+                await _questionOptionRepository.AddAsync(qo);
+            }
+
+            await _questionOptionRepository.SaveChangesAsync();
+            return true;
         }
+
         #endregion
 
         #region [- GetByQuestionIdAsync() -]
-        public async Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(Guid questionId)
+        public async Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(string questionId)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             return await _questionOptionRepository.GetByQuestionIdAsync(questionId);
         }
         #endregion
 
         #region [- RemoveOptionsFromQuestionAsync() -]
-        public async Task<bool> RemoveOptionsFromQuestionAsync(Guid questionId, IEnumerable<Guid> optionIds)
+        public async Task<bool> RemoveOptionsFromQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             if (optionIds == null || !optionIds.Any())
                 throw new ArgumentException("Option IDs cannot be null or empty", nameof(optionIds));
 

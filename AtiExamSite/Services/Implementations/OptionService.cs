@@ -23,7 +23,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetByIdAsync() -]
-        public async Task<Option?> GetByIdAsync(Guid id)
+        public async Task<Option?> GetByIdAsync(string id)
         {
             return await _optionRepository.GetByIdAsync(id);
         }
@@ -32,7 +32,14 @@ namespace AtiExamSite.Services.Implementations
         #region [- CreateOptionAsync() -]
         public async Task<bool> CreateOptionAsync(Option option)
         {
-            if (option == null) throw new ArgumentNullException(nameof(option));
+            if (option == null)
+                throw new ArgumentNullException(nameof(option));
+
+            // If Id is not auto-generated, set it manually
+            if (string.IsNullOrEmpty(option.Id))
+            {
+                option.Id = Guid.NewGuid().ToString(); // Generate a unique ID
+            }
 
             await _optionRepository.AddAsync(option);
             return await _optionRepository.SaveChangesAsync();
@@ -40,25 +47,25 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetOptionsByQuestionAsync() -]
-        public async Task<IEnumerable<Option>> GetOptionsByQuestionAsync(Guid questionId)
+        public async Task<IEnumerable<Option>> GetOptionsByQuestionAsync(string questionId)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             return await _optionRepository.GetOptionsByQuestionAsync(questionId);
         }
         #endregion
 
         #region [- GetCorrectOptionForQuestionAsync() -]
-        public async Task<Option?> GetCorrectOptionForQuestionAsync(Guid questionId)
+        public async Task<Option?> GetCorrectOptionForQuestionAsync(string questionId)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             return await _optionRepository.GetCorrectOptionForQuestionAsync(questionId);
         }
         #endregion
 
         #region [- IsCorrectOptionAsync() -]
-        public async Task<bool> IsCorrectOptionAsync(Guid optionId)
+        public async Task<bool> IsCorrectOptionAsync(string optionId)
         {
-            if (optionId == Guid.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
+            if (optionId == string.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
             return await _optionRepository.IsCorrectOptionAsync(optionId);
         }
         #endregion
@@ -76,9 +83,9 @@ namespace AtiExamSite.Services.Implementations
 
         //the id must get cleared first then delete the whole record (application craash warning)
         #region [- DeleteOptionAsync() -]
-        public async Task<bool> DeleteOptionAsync(Guid optionId)
+        public async Task<bool> DeleteOptionAsync(string optionId)
         {
-            if (optionId == Guid.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
+            if (optionId == string.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
 
             var option = await _optionRepository.GetByIdAsync(optionId);
             if (option == null) return false;

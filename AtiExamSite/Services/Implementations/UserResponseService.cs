@@ -24,9 +24,10 @@ namespace AtiExamSite.Services.Implementations
             // Validate each response has required fields
             foreach (var response in responses)
             {
-                if (response.ExamId == Guid.Empty || response.QuestionId == Guid.Empty)
+                if (response.ExamId == string.Empty || response.QuestionId == string.Empty)
                     return false;
 
+                response.Id = Guid.NewGuid().ToString();
                 // No validation for UserId to allow anonymous
             }
 
@@ -35,9 +36,9 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetByExamAsync() -]
-        public async Task<IReadOnlyCollection<UserResponse>> GetByExamAsync(Guid examId)
+        public async Task<IReadOnlyCollection<UserResponse>> GetByExamAsync(string examId)
         {
-            if (examId == Guid.Empty)
+            if (examId == string.Empty)
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
             return await _userResponseRepository.GetResponsesByExamAsync(examId);
@@ -53,9 +54,10 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- CalculateExamScoreAsync() -]
-        public async Task<double> CalculateExamScoreAsync(Guid examId)
+        public async Task<(double Score, bool Passed)> CalculateExamScoreAsync(string examId)
         {
-            if (examId == Guid.Empty)
+            if (string.IsNullOrWhiteSpace(examId))
+
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
             return await _userResponseRepository.CalculateExamScoreAsync(examId);

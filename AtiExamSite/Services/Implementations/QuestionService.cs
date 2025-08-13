@@ -22,7 +22,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetWithOptionsAsync() -]
-        public async Task<Question?> GetWithOptionsAsync(Guid id)
+        public async Task<Question?> GetWithOptionsAsync(string id)
         {
             return await _questionRepository.GetQuestionWithOptionsAsync(id);
         }
@@ -44,9 +44,9 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- GetQuestionByIdAsync() -]
-        public async Task<Question?> GetQuestionByIdAsync(Guid id)
+        public async Task<Question?> GetQuestionByIdAsync(string id)
         {
-            if (id == Guid.Empty) throw new ArgumentException("Invalid question ID", nameof(id));
+            if (id == string.Empty) throw new ArgumentException("Invalid question ID", nameof(id));
 
             return await _questionRepository.GetByIdAsync(id);
         }
@@ -71,9 +71,9 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- DeleteQuestionAsync() -]
-        public async Task<bool> DeleteQuestionAsync(Guid questionId)
+        public async Task<bool> DeleteQuestionAsync(string questionId)
         {
-            if (questionId == Guid.Empty) throw new ArgumentException("Invalid question ID", nameof(questionId));
+            if (questionId == string.Empty) throw new ArgumentException("Invalid question ID", nameof(questionId));
 
             var question = await _questionRepository.GetByIdAsync(questionId);
             if (question == null) return false;
@@ -110,7 +110,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- HasCorrectOptionAsync() -]
-        public async Task<bool> HasCorrectOptionAsync(Guid questionId)
+        public async Task<bool> HasCorrectOptionAsync(string questionId)
         {
             return await _questionRepository.HasCorrectOptionAsync(questionId);
         }
@@ -124,7 +124,7 @@ namespace AtiExamSite.Services.Implementations
         #endregion
 
         #region [- SetCorrectOptionAsync() -]
-        public async Task<bool> SetCorrectOptionAsync(Guid questionId, Guid correctOptionId)
+        public async Task<bool> SetCorrectOptionAsync(string questionId, string correctOptionId)
         {
             var questionOptions = await _questionOptionRepository.GetByQuestionIdAsync(questionId);
             var targetQo = questionOptions.FirstOrDefault(qo => qo.OptionId == correctOptionId);

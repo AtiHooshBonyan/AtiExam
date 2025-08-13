@@ -4,7 +4,7 @@ namespace AtiExamSite.Models.DomainModels.Exam
 {
     public class Question
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
         public string DifficultyLevel { get; set; }
 

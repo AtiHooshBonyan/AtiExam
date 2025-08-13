@@ -112,17 +112,24 @@ namespace AtiExamSite.Data
             // UserResponse entity config
             modelBuilder.Entity<UserResponse>(entity =>
             {
-                entity.HasKey(ur => ur.SelectedOptionId);
+                entity.HasKey(ur => ur.Id);
+
+                entity.Property(ur => ur.Id)
+                      .IsRequired()
+                      .HasMaxLength(36);
 
                 entity.HasOne(ur => ur.Exam)
-                .WithMany(e => e.UserResponses) 
-                .HasForeignKey(ur => ur.ExamId)
-                .OnDelete(DeleteBehavior.Restrict);
+                      .WithMany(e => e.UserResponses)
+                      .HasForeignKey(ur => ur.ExamId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ur => ur.Question)
                       .WithMany(q => q.UserResponses)
                       .HasForeignKey(ur => ur.QuestionId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                // Optional: prevent duplicates per user/question
+                //entity.HasIndex(ur => new { ur.ExamId, ur.QuestionId, ur.SelectedOptionId }).IsUnique(false);
             });
         }
     }

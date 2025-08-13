@@ -60,9 +60,9 @@ namespace AtiExamSite.Controllers
 
         #region [- GetByExam() -]
         [HttpGet]
-        public async Task<IActionResult> GetByExam(Guid examId)
+        public async Task<IActionResult> GetByExam(string examId)
         {
-            if (examId == Guid.Empty)
+            if (examId == string.Empty)
                 return BadRequest("Invalid exam ID.");
 
             var responses = await _userResponseService.GetByExamAsync(examId) ?? new List<UserResponse>();
@@ -86,13 +86,14 @@ namespace AtiExamSite.Controllers
 
         #region [- GetScore() -]
         [HttpGet]
-        public async Task<IActionResult> GetScore(Guid examId)
+        public async Task<IActionResult> GetScore(string examId)
         {
-            if (examId == Guid.Empty)
+            if (string.IsNullOrWhiteSpace(examId))
                 return BadRequest("Invalid exam ID.");
 
-            var score = await _userResponseService.CalculateExamScoreAsync(examId);
+            var (score, passed) = await _userResponseService.CalculateExamScoreAsync(examId);
             ViewBag.Score = score;
+            ViewBag.Passed = passed;
 
             var exam = await _examService.GetByIdAsync(examId);
             if (exam == null)
@@ -105,9 +106,9 @@ namespace AtiExamSite.Controllers
 
         #region [- Create() -]
         [HttpGet]
-        public async Task<IActionResult> Create(Guid examId)
+        public async Task<IActionResult> Create(string examId)
         {
-            var userId = UserIdHelper.GetCurrentUserId(HttpContext) ?? Guid.Empty;
+            //var userId = UserIdHelper.GetCurrentUserId(HttpContext) ?? string.Empty;
 
             var exam = await _examService.GetByIdAsync(examId);
             if (exam == null)
@@ -119,7 +120,7 @@ namespace AtiExamSite.Controllers
                 // No active session, create new one
                 session = new ExamSession
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     ExamId = examId,
                     StartTime = DateTime.UtcNow
                 };
@@ -154,7 +155,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Guid examId, List<UserResponse> responses)
+        public async Task<IActionResult> Create(string examId, List<UserResponse> responses)
         {
             if (responses == null || !responses.Any())
             {

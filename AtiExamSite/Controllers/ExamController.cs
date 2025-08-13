@@ -29,7 +29,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- Details() -]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(string id)
         {
             var exam = await _examService.GetExamWithQuestionsAsync(id);
             if (exam == null) return NotFound();
@@ -64,7 +64,7 @@ namespace AtiExamSite.Controllers
 
         #region [- Edit() -]
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
             var exam = await _examService.GetByIdAsync(id);
             if (exam == null) return NotFound();
@@ -73,7 +73,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Exam exam)
+        public async Task<IActionResult> Edit(string id, Exam exam)
         {
             if (id != exam.Id) return NotFound();
 
@@ -90,7 +90,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- Delete() -]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             var exam = await _examService.GetByIdAsync(id);
             if (exam == null)
@@ -102,7 +102,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             await _examService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
@@ -111,7 +111,7 @@ namespace AtiExamSite.Controllers
 
         #region [- AddQuestions() -]
         [HttpGet]
-        public async Task<IActionResult> AddQuestions(Guid examId)
+        public async Task<IActionResult> AddQuestions(string examId)
         {
             var exam = await _examService.GetExamWithQuestionsAsync(examId);
             if (exam == null)
@@ -136,7 +136,7 @@ namespace AtiExamSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddQuestions(Guid examId, IEnumerable<Guid> questionIds)
+        public async Task<IActionResult> AddQuestions(string examId, IEnumerable<string> questionIds)
         {
             var success = await _examQuestionService.AddQuestionsToExamAsync(examId, questionIds);
             if (!success)
@@ -149,7 +149,7 @@ namespace AtiExamSite.Controllers
         #endregion
 
         #region [- QuestionCount() -]
-        public async Task<IActionResult> QuestionCount(Guid examId)
+        public async Task<IActionResult> QuestionCount(string examId)
         {
             var count = await _examQuestionService.CountQuestionsInExamAsync(examId);
             return View(count);

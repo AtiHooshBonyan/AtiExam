@@ -3,9 +3,9 @@
     public class QuestionOption
 
     {
-        public Guid Id { get; set; }
-        public Guid QuestionId { get; set; }
-        public Guid OptionId { get; set; }
+        public string Id { get; set; }
+        public string QuestionId { get; set; }
+        public string OptionId { get; set; }
 
         public Question Question { get; set; }
         public Option Option { get; set; }

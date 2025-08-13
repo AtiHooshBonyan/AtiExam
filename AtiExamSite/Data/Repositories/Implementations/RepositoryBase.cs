@@ -17,7 +17,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetByIdAsync() -]
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(string id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
@@ -38,18 +38,18 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetByIdsAsync() -]
-        public async Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids)
+        public async Task<List<T>> GetByIdsAsync(IEnumerable<string> ids)
         {
             // Assumes T has a property named "Id" of type Guid
             var parameter = Expression.Parameter(typeof(T), "e");
             var property = Expression.PropertyOrField(parameter, "Id");
-            if (property.Type != typeof(Guid))
+            if (property.Type != typeof(string))
                 throw new InvalidOperationException("Entity does not have a Guid Id property.");
 
             var containsMethod = typeof(Enumerable)
                 .GetMethods()
                 .First(m => m.Name == "Contains" && m.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(Guid));
+                .MakeGenericMethod(typeof(string));
 
             var idsConstant = Expression.Constant(ids);
             var body = Expression.Call(containsMethod, idsConstant, property);
@@ -90,9 +90,9 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(Guid id)
+        public async Task<bool> ExistsAsync(string id)
         {
-            return await _dbContext.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
+            return await _dbContext.Set<T>().AnyAsync(e => EF.Property<string>(e, "Id") == id);
         }
         #endregion
     }

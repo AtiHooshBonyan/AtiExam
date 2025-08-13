@@ -13,9 +13,9 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- GetResponsesByExamAsync() -]
-        public async Task<IReadOnlyCollection<UserResponse>> GetResponsesByExamAsync(Guid examId)
+        public async Task<IReadOnlyCollection<UserResponse>> GetResponsesByExamAsync(string examId)
         {
-            if (examId == Guid.Empty)
+            if (examId == string.Empty)
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
             return await _dbContext.UserResponses
@@ -36,15 +36,15 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- CalculateExamScoreAsync() -]
-        public async Task<double> CalculateExamScoreAsync(Guid examId)
+        public async Task<(double Score, bool Passed)> CalculateExamScoreAsync(string examId)
         {
-            if (examId == Guid.Empty)
+            if (string.IsNullOrWhiteSpace(examId))
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
-            // Load the exam to get RequiredQuestion count
+            // Load the exam to get RequiredQuestion and PassingScore
             var exam = await _dbContext.Exams
                 .Where(e => e.Id == examId)
-                .Select(e => new { e.RequiredQuestion })
+                .Select(e => new { e.RequiredQuestion, e.PassingScore })
                 .FirstOrDefaultAsync();
 
             if (exam == null)
@@ -55,7 +55,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
 
             // Get all valid user responses for this exam
             var responses = await _dbContext.UserResponses
-                .Where(ur => ur.ExamId == examId && ur.SelectedOptionId != null && ur.SelectedOptionId != Guid.Empty)
+                .Where(ur => ur.ExamId == examId && !string.IsNullOrEmpty(ur.SelectedOptionId))
                 .ToListAsync();
 
             // Extract distinct selected option IDs
@@ -75,19 +75,20 @@ namespace AtiExamSite.Data.Repositories.Implementations
                 selectedOptions.TryGetValue(r.SelectedOptionId, out bool isCorrect) &&
                 isCorrect);
 
-            // Calculate score based on RequiredQuestion count
+            // Calculate percentage score
             double percentage = (double)correctCount / exam.RequiredQuestion * 100;
+            percentage = Math.Round(percentage, 2);
 
-            // Round to 2 decimals
-            return Math.Round(percentage, 2);
+            // Check if passed
+            bool passed = percentage >= exam.PassingScore;
+
+            return (percentage, passed);
         }
-
-
 
         #endregion
 
         #region [- DeleteByQuestionIdAsync() -]
-        public async Task<bool> DeleteByQuestionIdAsync(Guid questionId)
+        public async Task<bool> DeleteByQuestionIdAsync(string questionId)
         {
             var responses = await _dbContext.UserResponses
                 .Where(ur => ur.QuestionId == questionId)
@@ -104,7 +105,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #endregion
 
         #region [- DeleteByExamIdAsync() -]
-        public async Task<bool> DeleteByExamIdAsync(Guid examId)
+        public async Task<bool> DeleteByExamIdAsync(string examId)
         {
             var responses = await _dbContext.UserResponses
                 .Where(ur => ur.ExamId == examId)

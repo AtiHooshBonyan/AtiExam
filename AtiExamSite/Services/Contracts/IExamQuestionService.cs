@@ -6,9 +6,9 @@ namespace AtiExamSite.Services.Contracts
     {
         //Task<List<Question>> GetRandomQuestionsForExamAsync(Guid examId, int count);
 
-        Task<bool> AddQuestionsToExamAsync(Guid examId, IEnumerable<Guid> questionIds);
-        Task<IEnumerable<Question>> GetExamQuestionsAsync(Guid examId);
-        Task<bool> ExistsAsync(Guid examId, Guid questionId);
-        Task<int> CountQuestionsInExamAsync(Guid examId);
+        Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds);
+        Task<IEnumerable<Question>> GetExamQuestionsAsync(string examId);
+        Task<bool> ExistsAsync(string examId, string questionId);
+        Task<int> CountQuestionsInExamAsync(string examId);
     }
 }
