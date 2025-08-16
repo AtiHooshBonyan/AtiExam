@@ -40,7 +40,7 @@ namespace AtiExamSite.Services.Implementations
         #region [- GetByQuestionIdAsync() -]
         public async Task<IEnumerable<QuestionOption>> GetByQuestionIdAsync(string questionId)
         {
-            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == Guid.Empty.ToString()) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             return await _questionOptionRepository.GetByQuestionIdAsync(questionId);
         }
         #endregion
@@ -48,7 +48,7 @@ namespace AtiExamSite.Services.Implementations
         #region [- RemoveOptionsFromQuestionAsync() -]
         public async Task<bool> RemoveOptionsFromQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {
-            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == Guid.Empty.ToString()) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             if (optionIds == null || !optionIds.Any())
                 throw new ArgumentException("Option IDs cannot be null or empty", nameof(optionIds));
 

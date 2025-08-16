@@ -13,17 +13,20 @@ namespace AtiExamSite.Data.Repositories.Implementations
         #region [- GetAllQuestionsAsync() -]
         public async Task<List<Question>> GetAllQuestionsAsync()
         {
-            return await _dbContext.Questions.ToListAsync();
+            return await _dbContext.Questions
+                .Include(q => q.QuestionOptions)
+                    .ThenInclude(qo => qo.Option)
+                .ToListAsync();
         }
         #endregion
 
         #region [- GetQuestionWithOptionsAsync() -]
         public async Task<Question?> GetQuestionWithOptionsAsync(string id)
         {
-            var question = await _dbContext.Questions
-            .Include(q => q.QuestionOptions)
-            .FirstOrDefaultAsync(q => q.Id == id);
-            return question;
+            return await _dbContext.Questions
+                .Include(q => q.QuestionOptions)
+                    .ThenInclude(qo => qo.Option)
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
         #endregion
 

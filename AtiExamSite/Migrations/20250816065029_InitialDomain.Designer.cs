@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtiExamSite.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20250813120711_InitialDomain")]
+    [Migration("20250816065029_InitialDomain")]
     partial class InitialDomain
     {
         /// <inheritdoc />

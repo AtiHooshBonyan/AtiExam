@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Add Options to Question";
     var options = ViewBag.AvailableOptions as IEnumerable<dynamic>;
-    Guid? currentCorrect = ViewBag.CurrentCorrectOptionId as Guid?;
 }
 
 <div class="container mt-4">
@@ -55,25 +54,17 @@
                     <div class="options-container" style="max-height:500px; overflow-y:auto;">
                         @foreach (var option in options)
                         {
-                            bool isCorrect = option.IsCorrect;
-                            <div class="card mb-2 option-card" data-title="@(option.Title.ToString().ToLower())" data-correct="@(isCorrect.ToString().ToLower())">
+                            <div class="card mb-2 option-card" data-title="@(option.Title.ToString().ToLower())">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-md-1 text-center">
                                             <input class="form-check-input option-checkbox" type="checkbox"
                                                    name="optionIds" value="@option.Id" id="option_@option.Id" />
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-11">
                                             <label class="form-check-label option-text fw-bold" for="option_@option.Id">
                                                 @option.Title
                                             </label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-check form-check-inline">
-                                                <input type="radio" class="form-check-input" name="CorrectOptionId" value="@option.Id"
-                                                       id="correctOption_@option.Id" @(isCorrect ? "checked" : "") />
-                                                <label for="correctOption_@option.Id" class="ms-1">Correct</label>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -113,10 +104,7 @@
                 const checked = all.filter(':checked');
                 $('#selectAllOptions').prop('checked', all.length === checked.length);
             });
-                    $('input[name="CorrectOptionId"]').on('change', function () {
-            const correctId = $(this).val();
-            $('#option_' + correctId).prop('checked', true);
-        });
+
             // Search filter
             $('#optionSearch').on('input', function () {
                 const searchText = $(this).val().toLowerCase();

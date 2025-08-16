@@ -6,8 +6,6 @@ namespace AtiExamSite.Services.Contracts
     {
         Task<bool> SubmitResponsesAsync(IEnumerable<UserResponse> responses);
         Task<IReadOnlyCollection<UserResponse>> GetByExamAsync(string examId);
-        //Task<IReadOnlyCollection<UserResponse>> GetByUserAsync(Guid userId);
         Task<(double Score, bool Passed)> CalculateExamScoreAsync(string examId);
-        //Task<bool> HasUserTakenExamAsync(Guid userId, Guid examId);
     }
 }

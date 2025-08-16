@@ -41,7 +41,7 @@ namespace AtiExamSite.Data.Repositories.Implementations
             if (string.IsNullOrWhiteSpace(examId))
                 throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
 
-            // Load the exam to get RequiredQuestion and PassingScore
+            // Load exam info
             var exam = await _dbContext.Exams
                 .Where(e => e.Id == examId)
                 .Select(e => new { e.RequiredQuestion, e.PassingScore })
@@ -53,37 +53,43 @@ namespace AtiExamSite.Data.Repositories.Implementations
             if (exam.RequiredQuestion <= 0)
                 throw new InvalidOperationException("Invalid number of required questions");
 
-            // Get all valid user responses for this exam
+            // Load user responses for this exam
             var responses = await _dbContext.UserResponses
                 .Where(ur => ur.ExamId == examId && !string.IsNullOrEmpty(ur.SelectedOptionId))
                 .ToListAsync();
 
-            // Extract distinct selected option IDs
+            if (!responses.Any())
+                return (0, false); // no answers → failed
+
+            // Extract distinct selected options
             var selectedOptionIds = responses
                 .Select(r => r.SelectedOptionId)
                 .Distinct()
                 .ToList();
 
-            // Load selected options and check which are correct
+            // Load option correctness
             var selectedOptions = await _dbContext.Options
                 .Where(o => selectedOptionIds.Contains(o.Id))
                 .ToDictionaryAsync(o => o.Id, o => o.IsCorrect);
 
-            // Count correct responses
+            // Count correct answers
             int correctCount = responses.Count(r =>
                 r.SelectedOptionId != null &&
                 selectedOptions.TryGetValue(r.SelectedOptionId, out bool isCorrect) &&
                 isCorrect);
 
-            // Calculate percentage score
-            double percentage = (double)correctCount / exam.RequiredQuestion * 100;
-            percentage = Math.Round(percentage, 2);
+            // Normalize denominator → use RequiredQuestion
+            int denominator = Math.Min(exam.RequiredQuestion, responses.Count);
 
-            // Check if passed
+            double percentage = denominator > 0
+                ? Math.Round((double)correctCount / denominator * 100, 2)
+                : 0;
+
             bool passed = percentage >= exam.PassingScore;
 
             return (percentage, passed);
         }
+
 
         #endregion
 

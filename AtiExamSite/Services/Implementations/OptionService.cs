@@ -35,10 +35,9 @@ namespace AtiExamSite.Services.Implementations
             if (option == null)
                 throw new ArgumentNullException(nameof(option));
 
-            // If Id is not auto-generated, set it manually
             if (string.IsNullOrEmpty(option.Id))
             {
-                option.Id = Guid.NewGuid().ToString(); // Generate a unique ID
+                option.Id = Guid.NewGuid().ToString(); 
             }
 
             await _optionRepository.AddAsync(option);
@@ -57,7 +56,7 @@ namespace AtiExamSite.Services.Implementations
         #region [- GetCorrectOptionForQuestionAsync() -]
         public async Task<Option?> GetCorrectOptionForQuestionAsync(string questionId)
         {
-            if (questionId == string.Empty) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
+            if (questionId == Guid.Empty.ToString()) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
             return await _optionRepository.GetCorrectOptionForQuestionAsync(questionId);
         }
         #endregion
@@ -65,7 +64,7 @@ namespace AtiExamSite.Services.Implementations
         #region [- IsCorrectOptionAsync() -]
         public async Task<bool> IsCorrectOptionAsync(string optionId)
         {
-            if (optionId == string.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
+            if (optionId == Guid.Empty.ToString()) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
             return await _optionRepository.IsCorrectOptionAsync(optionId);
         }
         #endregion
@@ -81,11 +80,10 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
-        //the id must get cleared first then delete the whole record (application craash warning)
         #region [- DeleteOptionAsync() -]
         public async Task<bool> DeleteOptionAsync(string optionId)
         {
-            if (optionId == string.Empty) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
+            if (optionId == Guid.Empty.ToString()) throw new ArgumentException("Option ID cannot be empty", nameof(optionId));
 
             var option = await _optionRepository.GetByIdAsync(optionId);
             if (option == null) return false;
