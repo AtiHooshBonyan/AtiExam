@@ -6,7 +6,6 @@ namespace AtiExamSite.Data.Repositories.Contracts
     {
         Task<bool> ExistsAsync(string examId, string questionId);
         Task<IEnumerable<ExamQuestion>> GetByExamIdAsync(string examId);
-        Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds);
         Task<int> CountQuestionsInExamAsync(string examId); 
     }
 }

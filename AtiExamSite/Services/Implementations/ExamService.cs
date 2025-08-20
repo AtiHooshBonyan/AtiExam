@@ -17,13 +17,6 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
-        #region [- ExamExistsAsync() -]
-        public async Task<bool> ExamExistsAsync(string title, string? excludeExamId = null)
-        {
-            return await _examRepository.ExistsAsync(title, excludeExamId);
-        }
-        #endregion
-
         #region [- GetExamWithQuestionsAsync() -]
         public async Task<Exam?> GetExamWithQuestionsAsync(string examId)
         {

@@ -44,17 +44,5 @@ namespace AtiExamSite.Data.Repositories.Implementations
         }
         #endregion
 
-        #region [- UpdateOptionAsync() -]
-        public async Task UpdateOptionAsync(Option updatedOption)
-        {
-            var existingOption = await _dbContext.Options.FindAsync(updatedOption.Id);
-            if (existingOption is not null)
-            {
-                existingOption.Title = updatedOption.Title;
-                existingOption.IsCorrect = updatedOption.IsCorrect;
-            }
-        }
-        #endregion
-
     }
 }

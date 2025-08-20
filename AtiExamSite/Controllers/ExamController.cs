@@ -10,7 +10,6 @@ namespace AtiExamSite.Controllers
         private readonly IQuestionService _questionService;
         private readonly IExamQuestionService _examQuestionService;
 
-
         #region [- Ctor() -]
         public ExamController(IExamService examService, IExamQuestionService examQuestionService, IQuestionService questionService)
         {

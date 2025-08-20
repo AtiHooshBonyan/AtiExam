@@ -48,16 +48,6 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
-        #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(string examId, string questionId)
-        {
-            if (examId == Guid.Empty.ToString()) throw new ArgumentException("Exam ID cannot be empty", nameof(examId));
-            if (questionId == Guid.Empty.ToString()) throw new ArgumentException("Question ID cannot be empty", nameof(questionId));
-
-            return await _examQuestionRepository.ExistsAsync(examId, questionId);
-        }
-        #endregion
-
         #region [- CountQuestionsInExamAsync() -]
         public async Task<int> CountQuestionsInExamAsync(string examId)
         {

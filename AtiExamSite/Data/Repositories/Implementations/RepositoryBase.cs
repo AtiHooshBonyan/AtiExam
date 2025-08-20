@@ -89,11 +89,5 @@ namespace AtiExamSite.Data.Repositories.Implementations
         }
         #endregion
 
-        #region [- ExistsAsync() -]
-        public async Task<bool> ExistsAsync(string id)
-        {
-            return await _dbContext.Set<T>().AnyAsync(e => EF.Property<string>(e, "Id") == id);
-        }
-        #endregion
     }
 }

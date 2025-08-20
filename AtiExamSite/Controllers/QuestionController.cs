@@ -72,14 +72,6 @@ namespace AtiExamSite.Controllers
         }
         #endregion
 
-        #region [- VerifyHasCorrectOption() -]
-        public async Task<IActionResult> VerifyHasCorrectOption(string questionId)
-        {
-            var hasCorrectOption = await _questionService.HasCorrectOptionAsync(questionId);
-            return View(hasCorrectOption);
-        }
-        #endregion
-
         #region [- Create() -]
         [HttpGet]
         public async Task<IActionResult> Create()

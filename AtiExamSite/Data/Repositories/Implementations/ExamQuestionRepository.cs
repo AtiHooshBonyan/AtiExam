@@ -32,23 +32,6 @@ namespace AtiExamSite.Data.Repositories.Implementations
 
         #endregion
 
-        #region [- AddQuestionsToExamAsync() -]
-        public async Task<bool> AddQuestionsToExamAsync(string examId, IEnumerable<string> questionIds)
-        {
-            var existingQuestions = await _dbContext.ExamQuestions
-                .Where(eq => eq.ExamId == examId)
-                .Select(eq => eq.QuestionId)
-                .ToListAsync();
-
-            var newQuestions = questionIds
-                .Except(existingQuestions)
-                .Select(questionId => new ExamQuestion { ExamId = examId, QuestionId = questionId });
-
-            await _dbContext.ExamQuestions.AddRangeAsync(newQuestions);
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
-        #endregion
-
         #region [- CountQuestionsInExamAsync() -]
         public async Task<int> CountQuestionsInExamAsync(string examId)
         {

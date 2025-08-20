@@ -12,6 +12,5 @@
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
         public ICollection<UserResponse> UserResponses { get; set; }
-        //public virtual ICollection<ExamPlan> ExamPlans { get; set; }
     }
 }

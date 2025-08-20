@@ -4,7 +4,6 @@ namespace AtiExamSite.Services.Contracts
 {
     public interface IExamService
     {
-        Task<bool> ExamExistsAsync(string title, string? excludeExamId = null);
         Task<Exam?> GetExamWithQuestionsAsync(string examId);
         Task<IReadOnlyCollection<Question>> GetRandomQuestionsAsync(int count);
 

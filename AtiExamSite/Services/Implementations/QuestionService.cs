@@ -109,13 +109,6 @@ namespace AtiExamSite.Services.Implementations
         }
         #endregion
 
-        #region [- HasCorrectOptionAsync() -]
-        public async Task<bool> HasCorrectOptionAsync(string questionId)
-        {
-            return await _questionRepository.HasCorrectOptionAsync(questionId);
-        }
-        #endregion
-
         #region [- CountByDifficultyAsync() -]
         public async Task<int> CountByDifficultyAsync(string difficultyLevel)
         {

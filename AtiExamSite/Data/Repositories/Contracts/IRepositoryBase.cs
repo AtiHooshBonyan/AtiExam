@@ -11,7 +11,6 @@ namespace AtiExamSite.Data.Repositories.Contracts
         Task AddRangeAsync(IEnumerable<Question> questions);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-        Task<bool> ExistsAsync(string id);
         Task<bool> SaveChangesAsync();
     }
 }

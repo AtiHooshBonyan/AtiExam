@@ -42,7 +42,6 @@
                             <th>Title</th>
                             <th>Difficulty</th>
                             <th class="text-center">Options</th>
-                            <th class="text-center">Has Correct?</th>
                             <th class="text-nowrap">Actions</th>
                         </tr>
                     </thead>
@@ -51,7 +50,6 @@
                         {
                             @foreach (var item in Model)
                             {
-                                var hasCorrect = item.QuestionOptions?.Any(qo => qo.Option != null && qo.Option.IsCorrect) ?? false;
                                 <tr data-title="@item.Title.ToLower()" data-difficulty="@item.DifficultyLevel.ToLower()">
                                     <td class="w-50">@item.Title</td>
                                     <td>
@@ -60,20 +58,6 @@
                                         </span>
                                     </td>
                                     <td class="text-center">@((item.QuestionOptions?.Count ?? 0))</td>
-                                    <td class="text-center">
-                                        @if (hasCorrect)
-                                        {
-                                            <span class="text-success" title="Correct option set">
-                                                <i class="fas fa-check-circle"></i><span class="visually-hidden">Has correct option</span>
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted" title="No correct option yet">
-                                                <i class="fas fa-times-circle"></i><span class="visually-hidden">No correct option</span>
-                                            </span>
-                                        }
-                                    </td>
                                     <td class="text-nowrap">
                                         <div class="btn-group" role="group" aria-label="Actions for question @item.Title">
                                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Details">

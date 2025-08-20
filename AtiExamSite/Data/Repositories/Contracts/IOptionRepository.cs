@@ -7,6 +7,5 @@ namespace AtiExamSite.Data.Repositories.Contracts
         Task<IEnumerable<Option>> GetOptionsByQuestionAsync(string questionId);
         Task<Option?> GetCorrectOptionForQuestionAsync(string questionId);
         Task<bool> IsCorrectOptionAsync(string optionId);
-        Task UpdateOptionAsync(Option updatedOption);
     }
 }

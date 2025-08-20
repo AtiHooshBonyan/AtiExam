@@ -19,26 +19,6 @@ namespace AtiExamSite.Data.Repositories.Implementations
         }
         #endregion
 
-        #region [- AddOptionsToQuestionAsync() -]
-        public async Task<bool> AddOptionsToQuestionAsync(string questionId, IEnumerable<string> optionIds)
-        {
-            if (optionIds == null || !optionIds.Any())
-                return false;
-
-            var existingOptions = await _dbContext.QuestionOptions
-                .Where(qo => qo.QuestionId == questionId)
-                .Select(qo => qo.OptionId)
-                .ToListAsync();
-
-            var newOptions = optionIds
-                .Except(existingOptions)
-                .Select(optionId => new QuestionOption { QuestionId = questionId, OptionId = optionId });
-
-            await _dbContext.QuestionOptions.AddRangeAsync(newOptions);
-            return await _dbContext.SaveChangesAsync() > 0;
-        }
-        #endregion
-
         #region [- RemoveOptionsFromQuestionAsync() -]
         public async Task<bool> RemoveOptionsFromQuestionAsync(string questionId, IEnumerable<string> optionIds)
         {

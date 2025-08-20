@@ -71,19 +71,6 @@ namespace AtiExamSite.Controllers
         }
         #endregion
 
-        #region [- GetByUser() -]
-        //[HttpGet]
-        //public async Task<IActionResult> GetByUser(Guid? userId)
-        //{
-        //    if (userId == null || userId == Guid.Empty)
-        //        return BadRequest("Valid User ID is required.");
-
-        //    var responses = await _userResponseService.GetByUserAsync(userId.Value) ?? new List<UserResponse>();
-
-        //    return View(responses);
-        //}
-        #endregion
-
         #region [- GetScore() -]
         [HttpGet]
         public async Task<IActionResult> GetScore(string examId)
@@ -108,8 +95,6 @@ namespace AtiExamSite.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string examId)
         {
-            //var userId = UserIdHelper.GetCurrentUserId(HttpContext) ?? string.Empty;
-
             var exam = await _examService.GetByIdAsync(examId);
             if (exam == null)
                 return NotFound("Exam not found.");
@@ -150,9 +135,6 @@ namespace AtiExamSite.Controllers
             return View(questions);
         }
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string examId, List<UserResponse> responses)
@@ -192,10 +174,10 @@ namespace AtiExamSite.Controllers
                 return View(questions);
             }
 
-            // **End the session immediately**
+            //end session 
             session.EndTime = DateTime.UtcNow;
-            await _examSessionService.UpdateAsync(session);
 
+            await _examSessionService.UpdateAsync(session);
             return RedirectToAction(nameof(GetScore), new { examId });
         }
 
